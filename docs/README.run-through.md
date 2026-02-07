@@ -29,6 +29,7 @@ find . -name "*.rb" | xargs run-through -c rubocop -n
 | `-b, --bundle-exec-commands=COMMAND` | Command to run with `bundle exec` (can be used multiple times) |
 | `-i, --individual` | Run each command once per file instead of once for all files |
 | `-n, --dry-run` | Print what would happen without executing |
+| `-V, --verbose` | Print each command before running it |
 | `-v, --version` | Show version |
 | `-h, --help` | Show help message |
 
@@ -46,6 +47,9 @@ find . -name "*.md" | xargs run-through -i -c markdownlint
 
 # Preview commands without running them
 find spec -name "*_spec.rb" | xargs run-through -n -b rspec
+
+# Verbose mode to see commands as they run
+find lib -name "*.rb" | xargs run-through -V -c rubocop
 ```
 
 ## Use Cases

@@ -1,9 +1,9 @@
 class RunThrough < Formula
   desc "Run files through multiple shell commands"
   homepage "https://github.com/zdennis/bin"
-  version "1.0.0"
+  version "1.1.0"
   url "https://raw.githubusercontent.com/zdennis/bin/run-through-v#{version}/bin/run-through"
-  sha256 "125d454f274cfa23c767f8b2c4e9f60ee2f0ef1ad8907104dfcebb87571b7221"
+  sha256 "f33981824b3ecd41ace46cae75de7747cfb66f356764cf152f92a0376f76973e"
   license "MIT"
 
   depends_on "ruby"
