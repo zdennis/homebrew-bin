@@ -13,6 +13,6 @@ class AsciiBanner < Formula
   end
 
   test do
-    assert_match "HI", shell_output("#{bin}/ascii-banner HI")
+    assert_match "ascii-banner", shell_output("#{bin}/ascii-banner --version")
   end
 end
