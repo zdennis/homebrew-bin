@@ -74,4 +74,5 @@ queue-commands -f commands.txt -v
 
 ## See Also
 
+- [Source Repository](https://github.com/zdennis/bin) - Original source code
 - [homebrew-bin](../README.md) - Full list of available tools

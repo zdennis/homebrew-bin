@@ -50,5 +50,6 @@ codep spec/models/user_spec.rb spec/models/post_spec.rb
 
 ## See Also
 
+- [Source Repository](https://github.com/zdennis/bin) - Original source code
 - [touchp](README.touchp.md) - Touch files with parent directory creation
 - [homebrew-bin](../README.md) - Full list of available tools

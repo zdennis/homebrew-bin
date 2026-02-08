@@ -68,4 +68,5 @@ Aliases are stored in `~/.alias-directoryrc` as shell alias commands. When you s
 
 ## See Also
 
+- [Source Repository](https://github.com/zdennis/bin) - Original source code
 - [homebrew-bin](../README.md) - Full list of available tools

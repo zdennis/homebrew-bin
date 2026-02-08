@@ -55,4 +55,5 @@ Without `-s`, the tool acts as a simple process supervisor, restarting the comma
 
 ## See Also
 
+- [Source Repository](https://github.com/zdennis/bin) - Original source code
 - [homebrew-bin](../README.md) - Full list of available tools
