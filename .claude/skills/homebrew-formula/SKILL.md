@@ -280,7 +280,7 @@ Run a basic command to verify the installed tool works:
 <tool-name> --help
 ```
 
-### 14. Report success
+### 14. Report success and offer to commit/push
 
 Summarize what was created:
 - Formula: `Formula/<tool-name>.rb`
@@ -290,12 +290,36 @@ Summarize what was created:
 - Source repository: `<HOMEPAGE>`
 - Version: `<VERSION>` (from tag `<TAG>`)
 
-Remind the user to commit and push:
+Use `AskUserQuestion` to ask the user:
+- Question: "Commit and push to release the formula?"
+- Options:
+  - "Yes, commit and push"
+  - "Commit only (don't push)"
+  - "No, I'll do it manually"
+
+**If user chooses to commit (with or without push):**
+
+Stage and commit the files with a detailed commit message:
+
 ```bash
 git add Formula/<tool-name>.rb docs/README.<tool-name>.md README.md
-git commit -m "Add <tool-name> formula"
+git commit -m "$(cat <<'EOF'
+Add <tool-name> formula v<VERSION>
+
+<Brief 1-line description of what the tool does>
+
+Source: <HOMEPAGE>
+EOF
+)"
+```
+
+**If user also chose to push:**
+
+```bash
 git push
 ```
+
+Report completion with the commit hash and (if pushed) confirm it's been released.
 
 ---
 
@@ -438,7 +462,7 @@ brew install zdennis/bin/<tool-name>
 
 Confirm it shows the expected version.
 
-### 11. Report success
+### 11. Report success and offer to commit/push
 
 Summarize what was updated:
 
@@ -454,9 +478,47 @@ Summarize what was updated:
 - Documentation refreshed
 - Installation verified working
 
-Remind the user to commit and push:
+Use `AskUserQuestion` to ask the user:
+- Question: "Commit and push to release the update?"
+- Options:
+  - "Yes, commit and push"
+  - "Commit only (don't push)"
+  - "No, I'll do it manually"
+
+**If user chooses to commit (with or without push):**
+
+Stage and commit the files with a detailed commit message:
+
+**For version updates:**
 ```bash
 git add Formula/<tool-name>.rb docs/README.<tool-name>.md README.md
-git commit -m "Update <tool-name> to v<VERSION>"
+git commit -m "$(cat <<'EOF'
+Update <tool-name> to v<VERSION>
+
+<Brief summary of notable changes if known, otherwise: "Updated to latest release.">
+
+Source: <HOMEPAGE>
+EOF
+)"
+```
+
+**For force updates (same version):**
+```bash
+git add Formula/<tool-name>.rb docs/README.<tool-name>.md README.md
+git commit -m "$(cat <<'EOF'
+Refresh <tool-name> formula v<VERSION>
+
+Refreshed SHA256 and documentation.
+
+Source: <HOMEPAGE>
+EOF
+)"
+```
+
+**If user also chose to push:**
+
+```bash
 git push
 ```
+
+Report completion with the commit hash and (if pushed) confirm it's been released.
