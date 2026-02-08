@@ -248,6 +248,7 @@ brew install zdennis/bin/<tool-name>
 
 ## See Also
 
+- [Source Repository](<HOMEPAGE>) - Original source code
 - [homebrew-bin](../README.md) - Full list of available tools
 ```
 
