@@ -11,6 +11,8 @@ Manage Homebrew formulas for tools from any git repository.
 ```
 /homebrew-formula create <tool-name> [--repo <repository>] [--path <tool-path>] [--tag <tag-pattern>]
 /homebrew-formula update <tool-name> [--repo <repository>] [--path <tool-path>] [--tag <tag-pattern>]
+/homebrew-formula update_readme [<tool-name>...]
+/homebrew-formula update_all_formula
 ```
 
 ### Parameters
@@ -37,6 +39,23 @@ Create a new Homebrew formula for a tool that doesn't have one yet. Automaticall
 ### update
 
 Update an existing formula to the latest tagged version. Automatically detects if a newer version is available, updates the version number, sha256, and refreshes the documentation.
+
+### update_readme
+
+Regenerate README documentation for one or more tools without updating the formula version. Useful for refreshing documentation after manual changes or ensuring READMEs stay in sync with the tool's source.
+
+- If no tools specified: Prompts to update all tools or select specific ones
+- If tools specified: Updates README for each listed tool
+
+### update_all_formula
+
+Update the `Formula/all.rb` meta-formula to include all current formulas as dependencies. This command:
+
+- Scans `Formula/` for all `.rb` files (excluding `all.rb` itself)
+- Updates the `depends_on` list in `Formula/all.rb` to match
+- Keeps formulas in alphabetical order
+
+This command is automatically invoked at the end of `create` and `update` commands.
 
 ---
 
@@ -281,12 +300,17 @@ Run a basic command to verify the installed tool works:
 <tool-name> --help
 ```
 
-### 14. Report success and offer to commit/push
+### 14. Update the all.rb meta-formula
+
+Run the `update_all_formula` logic (see "Update All Formula Instructions" section) to ensure the new formula is included in `Formula/all.rb`.
+
+### 15. Report success and offer to commit/push
 
 Summarize what was created:
 - Formula: `Formula/<tool-name>.rb`
 - Documentation: `docs/README.<tool-name>.md`
 - README.md updated with new table row
+- `Formula/all.rb` updated to include new formula
 - Installation verified working
 - Source repository: `<HOMEPAGE>`
 - Version: `<VERSION>` (from tag `<TAG>`)
@@ -303,7 +327,7 @@ Use `AskUserQuestion` to ask the user:
 Stage and commit the files with a detailed commit message:
 
 ```bash
-git add Formula/<tool-name>.rb docs/README.<tool-name>.md README.md
+git add Formula/<tool-name>.rb Formula/all.rb docs/README.<tool-name>.md README.md
 git commit -m "$(cat <<'EOF'
 Add <tool-name> formula v<VERSION>
 
@@ -463,7 +487,11 @@ brew install zdennis/bin/<tool-name>
 
 Confirm it shows the expected version.
 
-### 11. Report success and offer to commit/push
+### 11. Update the all.rb meta-formula
+
+Run the `update_all_formula` logic (see "Update All Formula Instructions" section) to ensure `Formula/all.rb` is in sync. This typically won't change anything for updates, but ensures consistency.
+
+### 12. Report success and offer to commit/push
 
 Summarize what was updated:
 
@@ -492,7 +520,7 @@ Stage and commit the files with a detailed commit message:
 
 **For version updates:**
 ```bash
-git add Formula/<tool-name>.rb docs/README.<tool-name>.md README.md
+git add Formula/<tool-name>.rb Formula/all.rb docs/README.<tool-name>.md README.md
 git commit -m "$(cat <<'EOF'
 Update <tool-name> to v<VERSION>
 
@@ -505,7 +533,7 @@ EOF
 
 **For force updates (same version):**
 ```bash
-git add Formula/<tool-name>.rb docs/README.<tool-name>.md README.md
+git add Formula/<tool-name>.rb Formula/all.rb docs/README.<tool-name>.md README.md
 git commit -m "$(cat <<'EOF'
 Refresh <tool-name> formula v<VERSION>
 
@@ -523,3 +551,222 @@ git push
 ```
 
 Report completion with the commit hash and (if pushed) confirm it's been released.
+
+---
+
+## Update README Instructions
+
+When invoked with `update_readme [<tool-name>...]`, follow these steps:
+
+### 1. Determine which tools to update
+
+**If one or more tool names are provided:**
+Store them as `<TOOL_LIST>` and proceed to step 2.
+
+**If no tool names are provided:**
+List available formulas:
+
+```bash
+ls Formula/*.rb | sed 's|Formula/||; s|\.rb$||' | sort
+```
+
+Use `AskUserQuestion` to ask the user:
+- Question: "Which tools would you like to update READMEs for?"
+- Options:
+  - "All tools"
+  - "Enter specific tool(s)"
+
+If user chooses "All tools", set `<TOOL_LIST>` to all formula names found.
+If user chooses to enter specific tools, prompt for the list and store as `<TOOL_LIST>`.
+
+### 2. Process each tool
+
+For each `<tool-name>` in `<TOOL_LIST>`:
+
+#### 2a. Verify formula exists
+
+```bash
+ls Formula/<tool-name>.rb
+```
+
+If it doesn't exist, report an error for this tool and continue to the next one.
+
+#### 2b. Read the formula and extract source URL
+
+Read `Formula/<tool-name>.rb` and parse to extract:
+
+**From the `url` field:**
+- **Full raw URL**: The complete URL to the tool source
+- **Repository host**: GitHub, GitLab, etc.
+- **Tag/ref**: The version reference in the URL
+
+**From other fields:**
+- `homepage` → `<HOMEPAGE>`
+- `version` → `<VERSION>`
+- `desc` → `<DESCRIPTION>`
+
+#### 2c. Fetch the tool source
+
+Download the tool from the raw URL:
+
+```bash
+curl -sL "<RAW_URL>"
+```
+
+Extract from the source:
+- **Usage examples**: From comment block or help text
+- **Options/flags**: All command-line options with descriptions
+- **Additional documentation**: Any inline docs or examples
+
+#### 2d. Update the tool README
+
+Read the existing `docs/README.<tool-name>.md` if it exists. Update or create the file following this template:
+
+```markdown
+# <tool-name>
+
+<One-line description of what the tool does.>
+
+## Installation
+
+\`\`\`bash
+brew install zdennis/bin/<tool-name>
+\`\`\`
+
+## Quick Start
+
+\`\`\`bash
+# Basic usage
+<tool-name> <example args>
+
+# Another common use case
+<tool-name> <other example>
+\`\`\`
+
+## Options
+
+| Option | Description |
+|--------|-------------|
+| `-h, --help` | Show help message |
+| `<other options>` | `<descriptions>` |
+
+## Examples
+
+\`\`\`bash
+# Example 1: <description>
+<tool-name> <args>
+
+# Example 2: <description>
+<tool-name> <args>
+\`\`\`
+
+## See Also
+
+- [Source Repository](<HOMEPAGE>) - Original source code
+- [homebrew-bin](../README.md) - Full list of available tools
+```
+
+Populate the template with current usage information extracted from the tool's source code.
+
+#### 2e. Update main README if needed
+
+Check if the tool's entry in `README.md` needs updating (description changes, etc.). If the description in the formula differs significantly from what's in the table, update the table entry.
+
+### 3. Report results
+
+Summarize what was updated:
+- List of tools with updated READMEs
+- Any tools that were skipped (formula not found)
+- Any errors encountered
+
+Use `AskUserQuestion` to ask the user:
+- Question: "Commit the README updates?"
+- Options:
+  - "Yes, commit and push"
+  - "Commit only (don't push)"
+  - "No, I'll do it manually"
+
+**If user chooses to commit (with or without push):**
+
+Stage and commit the files:
+
+```bash
+git add docs/README.*.md README.md
+git commit -m "$(cat <<'EOF'
+Update README documentation
+
+Refreshed documentation for: <list of tools>
+EOF
+)"
+```
+
+**If user also chose to push:**
+
+```bash
+git push
+```
+
+Report completion with the commit hash and (if pushed) confirm changes are live.
+
+---
+
+## Update All Formula Instructions
+
+When invoked with `update_all_formula`, or automatically at the end of `create`/`update` commands, follow these steps:
+
+### 1. Scan for all formulas
+
+List all formula files in `Formula/`:
+
+```bash
+ls Formula/*.rb | sed 's|Formula/||; s|\.rb$||' | sort
+```
+
+Filter out `all` from the list (the meta-formula itself).
+
+### 2. Read the current all.rb formula
+
+Read `Formula/all.rb` and extract the current list of `depends_on` entries.
+
+### 3. Compare and determine if update needed
+
+Compare the formula list from step 1 with the `depends_on` list from step 2.
+
+**If they match:** No update needed. Report that `Formula/all.rb` is already up to date.
+
+**If they differ:** Continue to step 4.
+
+### 4. Update Formula/all.rb
+
+Regenerate the `depends_on` section with all current formulas (excluding `all`), in alphabetical order:
+
+```ruby
+class All < Formula
+  desc "Install all zdennis/bin tools"
+  homepage "https://github.com/zdennis/bin"
+  version "1.0.0"
+  license "MIT"
+
+  depends_on "zdennis/bin/<formula-1>"
+  depends_on "zdennis/bin/<formula-2>"
+  # ... all formulas in alphabetical order ...
+
+  def install
+    (prefix/"README").write "Meta-formula for all zdennis/bin tools"
+  end
+
+  test do
+    assert_predicate prefix/"README", :exist?
+  end
+end
+```
+
+### 5. Report changes
+
+If running standalone (not as part of `create`/`update`):
+- Report which formulas were added or removed from `all.rb`
+- The changes will be included in the parent command's commit if running as part of `create`/`update`
+
+If running as part of `create` or `update`:
+- Silently update the file; it will be included in the commit with the new/updated formula
+- Only report if there was an issue updating the file
