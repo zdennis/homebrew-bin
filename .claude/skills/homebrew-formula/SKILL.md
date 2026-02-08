@@ -213,8 +213,17 @@ class ToolName < Formula
   end
 
   test do
-    # Simple test - adjust based on tool's --help or --version output
-    assert_match "<expected output>", shell_output("#{bin}/<tool-name> --help", 0)
+    # REQUIRED: Every formula must have a test block for CI verification
+    # Use one of these patterns based on what the tool supports:
+
+    # If tool supports --version:
+    assert_match "<tool-name>", shell_output("#{bin}/<tool-name> --version")
+
+    # If tool only supports --help:
+    assert_match "<expected text>", shell_output("#{bin}/<tool-name> --help")
+
+    # If tool produces output without flags:
+    assert_match "<expected text>", shell_output("#{bin}/<tool-name>")
   end
 end
 ```
@@ -223,7 +232,15 @@ end
 - For GitHub: `https://raw.githubusercontent.com/owner/repo/<TAG>/<TOOL_PATH><tool-name>`
 - For GitLab: `https://gitlab.com/owner/repo/-/raw/<TAG>/<TOOL_PATH><tool-name>`
 
-Note: The class name should be CamelCase (e.g., `ascii-banner` → `AsciiBanner`, `retry-command` → `RetryCommand`).
+**Class Name:** Must be CamelCase derived from the formula filename:
+- `ascii-banner` → `AsciiBanner`
+- `retry-command` → `RetryCommand`
+- `code+x` → `Codexx` (special characters are removed/converted)
+
+**Test Block (REQUIRED):** The `test do` block is mandatory for CI verification. The test runs via `brew test` and must:
+- Execute quickly (no network calls, no long-running operations)
+- Verify the tool is installed and runnable
+- Match some expected output to confirm it works
 
 ### 10. Create documentation
 
@@ -292,7 +309,17 @@ brew install zdennis/bin/<tool-name>
 
 If installation fails due to sha256 mismatch or other errors, fix the formula and retry.
 
-### 13. Verify the tool works
+### 13. Run brew test to verify the test block
+
+Run `brew test` to verify the formula's test block passes (this is what CI runs):
+
+```bash
+brew test zdennis/bin/<tool-name>
+```
+
+If the test fails, fix the `test do` block in the formula and retry. The test must pass for CI to succeed.
+
+### 14. Verify the tool works manually
 
 Run a basic command to verify the installed tool works:
 
@@ -302,11 +329,11 @@ Run a basic command to verify the installed tool works:
 <tool-name> --help
 ```
 
-### 14. Update the zdennis-bin-all.rb meta-formula
+### 15. Update the zdennis-bin-all.rb meta-formula
 
 Run the `update_all_formula` logic (see "Update All Formula Instructions" section) to ensure the new formula is included in `Formula/zdennis-bin-all.rb`.
 
-### 15. Report success and offer to commit/push
+### 16. Report success and offer to commit/push
 
 Summarize what was created:
 - Formula: `Formula/<tool-name>.rb`
@@ -481,7 +508,15 @@ brew uninstall <tool-name> 2>/dev/null || true
 brew install zdennis/bin/<tool-name>
 ```
 
-### 10. Verify the tool works
+### 10. Run brew test to verify the test block
+
+```bash
+brew test zdennis/bin/<tool-name>
+```
+
+If the test fails, fix the `test do` block in the formula and retry.
+
+### 11. Verify the tool works
 
 ```bash
 <tool-name> --version
@@ -489,11 +524,11 @@ brew install zdennis/bin/<tool-name>
 
 Confirm it shows the expected version.
 
-### 11. Update the zdennis-bin-all.rb meta-formula
+### 12. Update the zdennis-bin-all.rb meta-formula
 
 Run the `update_all_formula` logic (see "Update All Formula Instructions" section) to ensure `Formula/zdennis-bin-all.rb` is in sync. This typically won't change anything for updates, but ensures consistency.
 
-### 12. Report success and offer to commit/push
+### 13. Report success and offer to commit/push
 
 Summarize what was updated:
 
