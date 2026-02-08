@@ -1,5 +1,7 @@
 # homebrew-bin
 
+[![Test Formulas](https://github.com/zdennis/homebrew-bin/actions/workflows/test.yml/badge.svg)](https://github.com/zdennis/homebrew-bin/actions/workflows/test.yml)
+
 Personal Homebrew tap for zdennis tools.
 
 ## Install All Tools
