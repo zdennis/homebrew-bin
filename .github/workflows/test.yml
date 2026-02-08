@@ -16,8 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Tap this repository
-        run: |
-          brew tap zdennis/bin .
+        run: brew tap zdennis/bin .
 
       - name: List available formulas
         run: |
@@ -29,48 +28,22 @@ jobs:
           # Install zdennis-bin-all which depends on all other tools
           brew install zdennis/bin/zdennis-bin-all
 
-      - name: Verify installations
+      - name: Test all formulas
         run: |
-          echo "=== Verifying installed tools ==="
+          echo "=== Testing all formulas ==="
+          failed=0
+          for formula in Formula/*.rb; do
+            name=$(basename "$formula" .rb)
+            echo ""
+            echo "Testing $name..."
+            if brew test "zdennis/bin/$name"; then
+              echo "✓ $name passed"
+            else
+              echo "✗ $name failed"
+              failed=1
+            fi
+          done
+          exit $failed
 
-          echo "alias-directory:"
-          alias-directory --help | head -3
-
-          echo ""
-          echo "ascii-banner:"
-          ascii-banner --version
-
-          echo ""
-          echo "code+x:"
-          code+x --version
-
-          echo ""
-          echo "codep:"
-          codep --version
-
-          echo ""
-          echo "queue-commands:"
-          queue-commands --help | head -3
-
-          echo ""
-          echo "retry-command:"
-          retry-command --version
-
-          echo ""
-          echo "run-through:"
-          run-through --version
-
-          echo ""
-          echo "set-random-background-color:"
-          set-random-background-color --help | head -3
-
-          echo ""
-          echo "touchp:"
-          touchp --version
-
-          echo ""
-          echo "zdennis-bin-all:"
-          zdennis-bin-all --version
-
-      - name: Run zdennis-bin-all to show summary
+      - name: Show installed tools summary
         run: zdennis-bin-all
