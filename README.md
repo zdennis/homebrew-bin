@@ -2,6 +2,26 @@
 
 Personal Homebrew tap for zdennis tools.
 
+## Install All Tools
+
+Install every tool in this tap with a single command:
+
+```bash
+brew install zdennis/bin/zdennis-bin-all
+```
+
+This installs all available tools and a `zdennis-bin-all` command that lists what's included:
+
+```
+$ zdennis-bin-all
+zdennis/bin tools v1.1.1 (installed via 'brew install zdennis/bin/zdennis-bin-all'):
+
+  alias-directory (1.0.0)           - Manage directory aliases for quick navigation
+  ascii-banner (1.0.0)              - Create ASCII art banners with color and styling
+  codep (1.0.0)                     - Run commands in parallel with formatted output
+  ...
+```
+
 ## Available Tools
 
 | Tool | README | Install | Description |
