@@ -49,10 +49,12 @@ Regenerate README documentation for one or more tools without updating the formu
 
 ### update_all_formula
 
-Update the `Formula/all.rb` meta-formula to include all current formulas as dependencies. This command:
+Update the `Formula/zdennis-bin-all.rb` meta-formula to include all current formulas as dependencies. This command:
 
-- Scans `Formula/` for all `.rb` files (excluding `all.rb` itself)
-- Updates the `depends_on` list in `Formula/all.rb` to match
+- Scans `Formula/` for all `.rb` files (excluding `zdennis-bin-all.rb` itself)
+- Updates the `depends_on` list in `Formula/zdennis-bin-all.rb` to match
+- Updates the `bin/zdennis-bin-all` script in `zdennis/bin` repo with current tool list
+- Bumps the version (prompts user for semver choice), tags, and pushes
 - Keeps formulas in alphabetical order
 
 This command is automatically invoked at the end of `create` and `update` commands.
@@ -300,9 +302,9 @@ Run a basic command to verify the installed tool works:
 <tool-name> --help
 ```
 
-### 14. Update the all.rb meta-formula
+### 14. Update the zdennis-bin-all.rb meta-formula
 
-Run the `update_all_formula` logic (see "Update All Formula Instructions" section) to ensure the new formula is included in `Formula/all.rb`.
+Run the `update_all_formula` logic (see "Update All Formula Instructions" section) to ensure the new formula is included in `Formula/zdennis-bin-all.rb`.
 
 ### 15. Report success and offer to commit/push
 
@@ -310,7 +312,7 @@ Summarize what was created:
 - Formula: `Formula/<tool-name>.rb`
 - Documentation: `docs/README.<tool-name>.md`
 - README.md updated with new table row
-- `Formula/all.rb` updated to include new formula
+- `Formula/zdennis-bin-all.rb` updated to include new formula
 - Installation verified working
 - Source repository: `<HOMEPAGE>`
 - Version: `<VERSION>` (from tag `<TAG>`)
@@ -327,7 +329,7 @@ Use `AskUserQuestion` to ask the user:
 Stage and commit the files with a detailed commit message:
 
 ```bash
-git add Formula/<tool-name>.rb Formula/all.rb docs/README.<tool-name>.md README.md
+git add Formula/<tool-name>.rb Formula/zdennis-bin-all.rb docs/README.<tool-name>.md README.md
 git commit -m "$(cat <<'EOF'
 Add <tool-name> formula v<VERSION>
 
@@ -487,9 +489,9 @@ brew install zdennis/bin/<tool-name>
 
 Confirm it shows the expected version.
 
-### 11. Update the all.rb meta-formula
+### 11. Update the zdennis-bin-all.rb meta-formula
 
-Run the `update_all_formula` logic (see "Update All Formula Instructions" section) to ensure `Formula/all.rb` is in sync. This typically won't change anything for updates, but ensures consistency.
+Run the `update_all_formula` logic (see "Update All Formula Instructions" section) to ensure `Formula/zdennis-bin-all.rb` is in sync. This typically won't change anything for updates, but ensures consistency.
 
 ### 12. Report success and offer to commit/push
 
@@ -520,7 +522,7 @@ Stage and commit the files with a detailed commit message:
 
 **For version updates:**
 ```bash
-git add Formula/<tool-name>.rb Formula/all.rb docs/README.<tool-name>.md README.md
+git add Formula/<tool-name>.rb Formula/zdennis-bin-all.rb docs/README.<tool-name>.md README.md
 git commit -m "$(cat <<'EOF'
 Update <tool-name> to v<VERSION>
 
@@ -533,7 +535,7 @@ EOF
 
 **For force updates (same version):**
 ```bash
-git add Formula/<tool-name>.rb Formula/all.rb docs/README.<tool-name>.md README.md
+git add Formula/<tool-name>.rb Formula/zdennis-bin-all.rb docs/README.<tool-name>.md README.md
 git commit -m "$(cat <<'EOF'
 Refresh <tool-name> formula v<VERSION>
 
@@ -722,51 +724,119 @@ List all formula files in `Formula/`:
 ls Formula/*.rb | sed 's|Formula/||; s|\.rb$||' | sort
 ```
 
-Filter out `all` from the list (the meta-formula itself).
+Filter out `zdennis-bin-all` from the list (the meta-formula itself). Store as `<TOOL_LIST>`.
 
-### 2. Read the current all.rb formula
+### 2. Read the current zdennis-bin-all.rb formula
 
-Read `Formula/all.rb` and extract the current list of `depends_on` entries.
+Read `Formula/zdennis-bin-all.rb` and extract:
+- Current list of `depends_on` entries
+- Current `version`
 
 ### 3. Compare and determine if update needed
 
-Compare the formula list from step 1 with the `depends_on` list from step 2.
+Compare `<TOOL_LIST>` from step 1 with the `depends_on` list from step 2.
 
-**If they match:** No update needed. Report that `Formula/all.rb` is already up to date.
+**If they match:** No update needed. Report that `Formula/zdennis-bin-all.rb` is already up to date and stop here.
 
 **If they differ:** Continue to step 4.
 
-### 4. Update Formula/all.rb
+### 4. Update the bin/zdennis-bin-all script in zdennis/bin
 
-Regenerate the `depends_on` section with all current formulas (excluding `all`), in alphabetical order:
+The `zdennis-bin-all` script lives in the `zdennis/bin` repository at `~/.bin-zdennis/bin/zdennis-bin-all`. Update it to list all current tools:
+
+```bash
+#!/bin/bash
+#
+# zdennis-bin-all - List all zdennis/bin tools available via Homebrew
+#
+# Usage: zdennis-bin-all
+#
+# This is a meta-package that installs all zdennis/bin tools.
+# Run this command to see what's included.
+
+echo "zdennis/bin tools (installed via 'brew install zdennis/bin/zdennis-bin-all'):"
+echo ""
+echo "  <tool-1>                 - <description from formula>"
+echo "  <tool-2>                 - <description from formula>"
+# ... all tools in alphabetical order with descriptions ...
+echo ""
+echo "For help on any tool, run: <tool-name> --help"
+```
+
+Extract each tool's description from its formula's `desc` field.
+
+### 5. Determine new version
+
+Parse the current version from `Formula/zdennis-bin-all.rb` (e.g., `1.0.0`).
+
+Use `AskUserQuestion` to confirm the new version:
+- Question: "Tools changed. Current version is <CURRENT_VERSION>. What should the new version be?"
+- Options:
+  - "Patch (<CURRENT_MAJOR>.<CURRENT_MINOR>.<CURRENT_PATCH + 1>)" - e.g., `1.0.1`
+  - "Minor (<CURRENT_MAJOR>.<CURRENT_MINOR + 1>.0)" - e.g., `1.1.0`
+  - "Enter custom version"
+
+Store the confirmed version as `<NEW_VERSION>`.
+
+### 6. Commit, tag, and push in zdennis/bin
+
+```bash
+cd ~/.bin-zdennis
+git add bin/zdennis-bin-all
+git commit -m "Update zdennis-bin-all script to v<NEW_VERSION>"
+git tag zdennis-bin-all-v<NEW_VERSION>
+git push && git push --tags
+```
+
+### 7. Get the new SHA256
+
+```bash
+curl -sL "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v<NEW_VERSION>/bin/zdennis-bin-all" | shasum -a 256
+```
+
+Store as `<NEW_SHA256>`.
+
+### 8. Update Formula/zdennis-bin-all.rb
+
+Update the formula with:
+- New `version "<NEW_VERSION>"`
+- New `sha256 "<NEW_SHA256>"`
+- Updated `depends_on` list (all tools in alphabetical order)
 
 ```ruby
-class All < Formula
+class ZdennisBinAll < Formula
   desc "Install all zdennis/bin tools"
   homepage "https://github.com/zdennis/bin"
-  version "1.0.0"
+  version "<NEW_VERSION>"
+  url "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v#{version}/bin/zdennis-bin-all"
+  sha256 "<NEW_SHA256>"
   license "MIT"
 
-  depends_on "zdennis/bin/<formula-1>"
-  depends_on "zdennis/bin/<formula-2>"
-  # ... all formulas in alphabetical order ...
+  depends_on "zdennis/bin/<tool-1>"
+  depends_on "zdennis/bin/<tool-2>"
+  # ... all tools in alphabetical order ...
 
   def install
-    (prefix/"README").write "Meta-formula for all zdennis/bin tools"
+    bin.install "zdennis-bin-all"
   end
 
   test do
-    assert_predicate prefix/"README", :exist?
+    assert_match "zdennis/bin tools", shell_output("#{bin}/zdennis-bin-all")
   end
 end
 ```
 
-### 5. Report changes
+### 9. Report changes
 
-If running standalone (not as part of `create`/`update`):
-- Report which formulas were added or removed from `all.rb`
-- The changes will be included in the parent command's commit if running as part of `create`/`update`
+Report which tools were added or removed, and the version bump:
+- Tools added: `<list>`
+- Tools removed: `<list>`
+- Version: `<OLD_VERSION>` → `<NEW_VERSION>`
 
 If running as part of `create` or `update`:
-- Silently update the file; it will be included in the commit with the new/updated formula
-- Only report if there was an issue updating the file
+- The `Formula/zdennis-bin-all.rb` changes will be included in the parent command's commit
+- Report the changes so the user knows what was updated
+
+If running standalone:
+- The changes are ready to be committed in homebrew-bin
+- Remind user to commit `Formula/zdennis-bin-all.rb` if not already done
