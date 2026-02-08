@@ -742,32 +742,44 @@ Compare `<TOOL_LIST>` from step 1 with the `depends_on` list from step 2.
 
 ### 4. Update the bin/zdennis-bin-all script in zdennis/bin
 
-The `zdennis-bin-all` script lives in the `zdennis/bin` repository at `~/.bin-zdennis/bin/zdennis-bin-all`. Update it to list all current tools:
+The `zdennis-bin-all` script lives in the `zdennis/bin` repository at `~/.bin-zdennis/bin/zdennis-bin-all`. Update it to list all current tools with their versions:
 
 ```bash
 #!/bin/bash
 #
 # zdennis-bin-all - List all zdennis/bin tools available via Homebrew
 #
-# Usage: zdennis-bin-all
+# Usage: zdennis-bin-all [--version]
 #
 # This is a meta-package that installs all zdennis/bin tools.
 # Run this command to see what's included.
 
-echo "zdennis/bin tools (installed via 'brew install zdennis/bin/zdennis-bin-all'):"
+VERSION="<NEW_VERSION>"
+
+if [[ "$1" == "--version" || "$1" == "-v" ]]; then
+  echo "zdennis-bin-all $VERSION"
+  exit 0
+fi
+
+echo "zdennis/bin tools v$VERSION (installed via 'brew install zdennis/bin/zdennis-bin-all'):"
 echo ""
-echo "  <tool-1>                 - <description from formula>"
-echo "  <tool-2>                 - <description from formula>"
-# ... all tools in alphabetical order with descriptions ...
+echo "  <tool-1> (<tool-1-version>)       - <description from formula>"
+echo "  <tool-2> (<tool-2-version>)       - <description from formula>"
+# ... all tools in alphabetical order with versions and descriptions ...
+echo ""
+echo "Note: Versions shown are what this formula installs. If you installed tools"
+echo "separately, you may have different versions. Use '<tool> --version' to check."
 echo ""
 echo "For help on any tool, run: <tool-name> --help"
 ```
 
-Extract each tool's description from its formula's `desc` field.
+For each tool, extract:
+- **Version**: From the formula's `version` field
+- **Description**: From the formula's `desc` field
 
 ### 5. Determine new version
 
-Parse the current version from `Formula/zdennis-bin-all.rb` (e.g., `1.0.0`).
+Parse the current version from the script's `VERSION="..."` line (e.g., `1.1.0`).
 
 Use `AskUserQuestion` to confirm the new version:
 - Question: "Tools changed. Current version is <CURRENT_VERSION>. What should the new version be?"
