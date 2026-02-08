@@ -1,0 +1,76 @@
+name: Test Formulas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Tap this repository
+        run: |
+          brew tap zdennis/bin .
+
+      - name: List available formulas
+        run: |
+          echo "Available formulas:"
+          ls -1 Formula/*.rb | sed 's|Formula/||; s|\.rb$||' | sort
+
+      - name: Install all formulas
+        run: |
+          # Install zdennis-bin-all which depends on all other tools
+          brew install zdennis/bin/zdennis-bin-all
+
+      - name: Verify installations
+        run: |
+          echo "=== Verifying installed tools ==="
+
+          echo "alias-directory:"
+          alias-directory --help | head -3
+
+          echo ""
+          echo "ascii-banner:"
+          ascii-banner --version
+
+          echo ""
+          echo "code+x:"
+          code+x --version
+
+          echo ""
+          echo "codep:"
+          codep --version
+
+          echo ""
+          echo "queue-commands:"
+          queue-commands --help | head -3
+
+          echo ""
+          echo "retry-command:"
+          retry-command --version
+
+          echo ""
+          echo "run-through:"
+          run-through --version
+
+          echo ""
+          echo "set-random-background-color:"
+          set-random-background-color --help | head -3
+
+          echo ""
+          echo "touchp:"
+          touchp --version
+
+          echo ""
+          echo "zdennis-bin-all:"
+          zdennis-bin-all --version
+
+      - name: Run zdennis-bin-all to show summary
+        run: zdennis-bin-all
