@@ -1,9 +1,9 @@
 class RetryCommand < Formula
   desc "Retry commands with configurable delay, limits, and supervisor mode"
   homepage "https://github.com/zdennis/bin"
-  version "1.0.0"
-  url "https://raw.githubusercontent.com/zdennis/bin/retry-command-v1.0.0/bin/retry-command"
-  sha256 "1a9356aa07b181a63b15ec1a5d343482d89ab95ae5aa8efe5daf13daa41144e3"
+  version "1.0.1"
+  url "https://raw.githubusercontent.com/zdennis/bin/retry-command-v1.0.1/bin/retry-command"
+  sha256 "a5d2d6ee04287eeb30975003bd8374c6c60b3ad3d0292b26b686549571c16d34"
   license "MIT"
 
   def install
@@ -11,6 +11,6 @@ class RetryCommand < Formula
   end
 
   test do
-    assert_match "retry-command 1.0.0", shell_output("#{bin}/retry-command --version")
+    assert_match "retry-command 1.0.1", shell_output("#{bin}/retry-command --version")
   end
 end
