@@ -982,3 +982,77 @@ If updates are available, use `AskUserQuestion`:
   - "No, just report"
 
 If user chooses to update, run the `update` command for each selected formula.
+
+---
+
+## Audit Instructions
+
+When invoked with `audit [<tool-name>...]`, follow these steps:
+
+### 1. Determine which formulas to audit
+
+**If one or more tool names are provided:**
+Store them as `<FORMULA_LIST>`.
+
+**If no tool names are provided:**
+Audit all formulas:
+
+```bash
+ls Formula/*.rb | sed 's|Formula/||; s|\.rb$||' | sort
+```
+
+Store as `<FORMULA_LIST>`.
+
+### 2. Run brew audit on each formula
+
+For each formula in `<FORMULA_LIST>`:
+
+```bash
+brew audit --strict "zdennis/bin/<tool-name>"
+```
+
+Capture the output and exit code.
+
+### 3. Collect and categorize results
+
+For each formula, categorize the result:
+- **Pass**: No warnings or errors
+- **Warnings**: Style suggestions or minor issues
+- **Errors**: Problems that should be fixed
+
+### 4. Report results
+
+Display a summary:
+
+```
+Formula Audit Results
+=====================
+
+✓ alias-directory    - No issues
+✓ ascii-banner       - No issues
+⚠ codep              - 2 warnings
+✗ queue-commands     - 1 error
+
+Details:
+--------
+
+codep:
+  - Warning: Description should start with a capital letter
+  - Warning: Homepage should use HTTPS
+
+queue-commands:
+  - Error: sha256 mismatch
+
+Summary: 6 passed, 1 with warnings, 1 with errors
+```
+
+### 5. Offer to fix issues
+
+If there are errors or warnings, use `AskUserQuestion`:
+- Question: "Would you like to attempt to fix any issues?"
+- Options:
+  - "Yes, fix automatically where possible"
+  - "No, I'll fix manually"
+
+For auto-fixable issues (like description capitalization), make the edits.
+For non-auto-fixable issues (like sha256 mismatch), provide guidance on how to fix.
