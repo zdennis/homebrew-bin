@@ -13,6 +13,8 @@ Manage Homebrew formulas for tools from any git repository.
 /homebrew-formula update <tool-name> [--repo <repository>] [--path <tool-path>] [--tag <tag-pattern>]
 /homebrew-formula update_readme [<tool-name>...]
 /homebrew-formula update_all_formula
+/homebrew-formula check-updates
+/homebrew-formula audit [<tool-name>...]
 ```
 
 ### Parameters
@@ -58,6 +60,28 @@ Update the `Formula/zdennis-bin-all.rb` meta-formula to include all current form
 - Keeps formulas in alphabetical order
 
 This command is automatically invoked at the end of `create` and `update` commands.
+
+### check-updates
+
+Scan all formulas and check if newer versions are available upstream. This command:
+
+- Reads each formula to extract the current version and tag pattern
+- Queries the upstream repository for newer tags
+- Reports which formulas have updates available
+- Does NOT make any changes - just reports status
+
+Useful for periodic maintenance to see what needs updating.
+
+### audit
+
+Run `brew audit` on formulas to check for style and best practice issues. This command:
+
+- Runs Homebrew's built-in formula linter
+- Reports warnings and errors
+- If no tools specified: Audits all formulas
+- If tools specified: Audits only the listed formulas
+
+Use `--strict` mode for thorough checking.
 
 ---
 
@@ -887,3 +911,74 @@ If running as part of `create` or `update`:
 If running standalone:
 - The changes are ready to be committed in homebrew-bin
 - Remind user to commit `Formula/zdennis-bin-all.rb` if not already done
+
+---
+
+## Check Updates Instructions
+
+When invoked with `check-updates`, follow these steps:
+
+### 1. Scan all formulas
+
+List all formula files in `Formula/`:
+
+```bash
+ls Formula/*.rb | sed 's|Formula/||; s|\.rb$||' | sort
+```
+
+Exclude `zdennis-bin-all` from the list.
+
+### 2. For each formula, check for updates
+
+For each formula:
+
+#### 2a. Read the formula and extract current info
+
+Read `Formula/<tool-name>.rb` and parse:
+- `version` → `<CURRENT_VERSION>`
+- `url` → Extract the repository and tag pattern
+  - For GitHub: `https://raw.githubusercontent.com/owner/repo/<tag>/path/file`
+  - Infer tag pattern from current tag (e.g., `tool-v1.0.0` → `tool-v*`)
+
+#### 2b. Query upstream for latest tag
+
+```bash
+git ls-remote --tags <REPO_URL> | grep "<tag-pattern>" | sort -V | tail -1
+```
+
+Extract the version from the latest tag.
+
+#### 2c. Compare versions
+
+Compare `<CURRENT_VERSION>` with `<LATEST_VERSION>`:
+- If different: Mark as "update available"
+- If same: Mark as "up to date"
+
+### 3. Report results
+
+Display a summary table:
+
+```
+Formula Update Check
+====================
+
+Tool                    Current    Latest     Status
+----                    -------    ------     ------
+alias-directory         1.0.0      1.0.0      ✓ Up to date
+ascii-banner            1.0.0      1.1.0      ⬆ Update available
+codep                   1.0.0      1.0.0      ✓ Up to date
+...
+
+Summary: 2 updates available, 6 up to date
+```
+
+### 4. Offer to update
+
+If updates are available, use `AskUserQuestion`:
+- Question: "Would you like to update any formulas?"
+- Options:
+  - "Update all (<count> formulas)"
+  - "Select which to update"
+  - "No, just report"
+
+If user chooses to update, run the `update` command for each selected formula.
