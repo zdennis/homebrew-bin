@@ -225,8 +225,7 @@ Create `Formula/<tool-name>.rb` with this structure:
 class ToolName < Formula
   desc "<description from step 7>"
   homepage "<HOMEPAGE>"
-  version "<VERSION>"
-  url "<RAW_FILE_URL>"  # Full URL to the raw file at the tag
+  url "<RAW_FILE_URL>"  # Full URL to the raw file at the tag (version extracted from URL)
   sha256 "<sha256 from step 6>"
   license "MIT"
 
@@ -252,9 +251,11 @@ class ToolName < Formula
 end
 ```
 
-**URL Construction:**
-- For GitHub: `https://raw.githubusercontent.com/owner/repo/<TAG>/<TOOL_PATH><tool-name>`
-- For GitLab: `https://gitlab.com/owner/repo/-/raw/<TAG>/<TOOL_PATH><tool-name>`
+**URL Construction (version embedded in URL - no separate `version` field needed):**
+- For GitHub: `https://raw.githubusercontent.com/owner/repo/<tool-name>-v<VERSION>/<TOOL_PATH><tool-name>`
+- For GitLab: `https://gitlab.com/owner/repo/-/raw/<tool-name>-v<VERSION>/<TOOL_PATH><tool-name>`
+
+Homebrew automatically extracts the version from the URL pattern (e.g., `tool-v1.0.0` → version `1.0.0`). Do NOT add a separate `version` field as this creates a redundant declaration warning in `brew audit --strict`.
 
 **Class Name:** Must be CamelCase derived from the formula filename:
 - `ascii-banner` → `AsciiBanner`
@@ -422,6 +423,7 @@ Read `Formula/<tool-name>.rb` and parse to extract current values:
   - GitHub: `https://raw.githubusercontent.com/owner/repo/tag/path/file` → `owner/repo`
   - GitLab: `https://gitlab.com/owner/repo/-/raw/tag/path/file` → `owner/repo`
 - **Current tag**: The ref portion of the URL (e.g., `tool-name-v1.2.0`)
+- **Current version**: Extract from the tag (e.g., `tool-name-v1.2.0` → `1.2.0`)
 - **Tool path**: Everything between the tag and the filename (e.g., `bin/`)
 - **Tag pattern**: Infer from current tag by replacing version with `*`
   - `tool-name-v1.2.0` → `tool-name-v*`
@@ -430,7 +432,6 @@ Read `Formula/<tool-name>.rb` and parse to extract current values:
 
 **From other fields:**
 - `homepage` → `<HOMEPAGE>`
-- `version` → `<CURRENT_VERSION>`
 
 **Apply parameter overrides** (only if explicitly provided):
 - `--repo` overrides the extracted repository
@@ -511,9 +512,10 @@ curl -sL "<RAW_URL_BASE>/<TAG>/<TOOL_PATH><tool-name>" | shasum -a 256
 ### 7. Update the formula
 
 Edit `Formula/<tool-name>.rb`:
-- Update `version "<VERSION>"` (if changed)
-- Update `url` with the new tag (if the URL format includes version)
+- Update `url` with the new tag (the version is embedded in the URL)
 - Update `sha256 "<new_sha256>"`
+
+**Important:** Do NOT add a separate `version` field. Homebrew extracts the version from the URL pattern automatically.
 
 ### 8. Update documentation
 
@@ -833,7 +835,7 @@ echo "For help on any tool, run: <tool-name> --help"
 ```
 
 For each tool, extract:
-- **Version**: From the formula's `version` field
+- **Version**: From the formula's `url` field (extract from tag pattern, e.g., `tool-v1.0.0` → `1.0.0`)
 - **Description**: From the formula's `desc` field
 
 ### 5. Determine new version
@@ -870,16 +872,17 @@ Store as `<NEW_SHA256>`.
 ### 8. Update Formula/zdennis-bin-all.rb
 
 Update the formula with:
-- New `version "<NEW_VERSION>"`
+- New `url` with the version embedded in the tag (e.g., `zdennis-bin-all-v<NEW_VERSION>`)
 - New `sha256 "<NEW_SHA256>"`
 - Updated `depends_on` list (all tools in alphabetical order)
+
+**Important:** Do NOT add a separate `version` field. Homebrew extracts the version from the URL pattern automatically.
 
 ```ruby
 class ZdennisBinAll < Formula
   desc "Install all zdennis/bin tools"
   homepage "https://github.com/zdennis/bin"
-  version "<NEW_VERSION>"
-  url "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v#{version}/bin/zdennis-bin-all"
+  url "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v<NEW_VERSION>/bin/zdennis-bin-all"
   sha256 "<NEW_SHA256>"
   license "MIT"
 
@@ -935,10 +938,12 @@ For each formula:
 #### 2a. Read the formula and extract current info
 
 Read `Formula/<tool-name>.rb` and parse:
-- `version` → `<CURRENT_VERSION>`
-- `url` → Extract the repository and tag pattern
+- `url` → Extract the repository, tag, and version
   - For GitHub: `https://raw.githubusercontent.com/owner/repo/<tag>/path/file`
+  - Extract version from tag (e.g., `tool-v1.0.0` → `1.0.0`)
   - Infer tag pattern from current tag (e.g., `tool-v1.0.0` → `tool-v*`)
+
+Store extracted version as `<CURRENT_VERSION>`.
 
 #### 2b. Query upstream for latest tag
 
