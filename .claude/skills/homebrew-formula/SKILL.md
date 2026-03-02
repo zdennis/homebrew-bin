@@ -787,19 +787,24 @@ ls Formula/*.rb | sed 's|Formula/||; s|\.rb$||' | sort
 
 Filter out `zdennis-bin-all` from the list (the meta-formula itself). Store as `<TOOL_LIST>`.
 
-### 2. Read the current zdennis-bin-all.rb formula
+### 2. Read the current zdennis-bin-all.rb formula and script
 
 Read `Formula/zdennis-bin-all.rb` and extract:
 - Current list of `depends_on` entries
 - Current `version`
 
+Also read the `zdennis-bin-all` script at `~/.bin-zdennis/bin/zdennis-bin-all` and extract the version listed for each tool (from the echo lines like `echo "  tool-name (1.0.0)  - description"`).
+
 ### 3. Compare and determine if update needed
 
-Compare `<TOOL_LIST>` from step 1 with the `depends_on` list from step 2.
+Check for TWO types of changes:
 
-**If they match:** No update needed. Report that `Formula/zdennis-bin-all.rb` is already up to date and stop here.
+1. **Tool list changes**: Compare `<TOOL_LIST>` from step 1 with the `depends_on` list from step 2 (tools added or removed).
+2. **Tool version changes**: For each tool in `<TOOL_LIST>`, extract the version from its formula's `url` field and compare with the version listed in the `zdennis-bin-all` script.
 
-**If they differ:** Continue to step 4.
+**If both the tool list AND all tool versions match:** No update needed. Report that `Formula/zdennis-bin-all.rb` is already up to date and stop here.
+
+**If either differs:** Report what changed (tools added/removed and/or version changes) and continue to step 4.
 
 ### 4. Update the bin/zdennis-bin-all script in zdennis/bin
 
