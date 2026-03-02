@@ -56,6 +56,7 @@ By default, ascii-banner auto-scales to fit your terminal. You can override this
 |--------|-------------|
 | `--left` | Left-align (default) |
 | `--center` | Center horizontally and vertically |
+| `--skip-vertical-center` | With `--center`, only center horizontally |
 | `--right` | Right-align |
 | `-w, --width WIDTH` | Set maximum width |
 | `--height HEIGHT` | Set maximum height |

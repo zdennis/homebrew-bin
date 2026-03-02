@@ -1,8 +1,8 @@
 class AsciiBanner < Formula
   desc "Create ASCII art banners with color, sizing, and alignment options"
   homepage "https://github.com/zdennis/bin"
-  url "https://raw.githubusercontent.com/zdennis/bin/ascii-banner-v1.1.0/bin/ascii-banner"
-  sha256 "e1c3a7af6329ad930263bf55b214b6b220fab335ac42c6fc644854d9eeef1d50"
+  url "https://raw.githubusercontent.com/zdennis/bin/ascii-banner-v1.2.0/bin/ascii-banner"
+  sha256 "cdb96a3714ee93623f0209f2ed82d4005dd2ad266dbb7db0c277396caf1e2f47"
   license "MIT"
 
   depends_on "ruby"
