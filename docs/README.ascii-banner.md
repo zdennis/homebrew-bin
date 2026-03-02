@@ -71,6 +71,12 @@ ascii-banner --margin 4,2 "Hello"       # 4 vertical, 2 horizontal
 ascii-banner --margin 2,1,3,1 "Hello"   # top, bottom, left, right
 ```
 
+### Output
+
+| Option | Description |
+|--------|-------------|
+| `--max-lines` | Strip trailing blank lines from output |
+
 ### Interactive Modes
 
 | Option | Description |
