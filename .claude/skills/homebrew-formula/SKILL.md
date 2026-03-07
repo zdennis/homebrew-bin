@@ -6,6 +6,21 @@ description: Manage Homebrew formulas for tools from any git repository (GitHub,
 
 Manage Homebrew formulas for tools from any git repository.
 
+## Helper Script
+
+A helper script at `.claude/skills/homebrew-formula/brew-formula-helper` is available for common operations. **Always use this script** instead of running brew commands directly:
+
+```bash
+# Install/reinstall a formula from local source (copies to tap, uninstalls, installs)
+.claude/skills/homebrew-formula/brew-formula-helper install <tool-name>
+
+# Run brew test on a formula
+.claude/skills/homebrew-formula/brew-formula-helper test <tool-name>
+
+# Commit, tag, and push zdennis-bin-all in the zdennis/bin repo
+.claude/skills/homebrew-formula/brew-formula-helper push-bin-all <version>
+```
+
 ## Usage
 
 ```
@@ -328,8 +343,7 @@ Edit `README.md` to add the new tool to the table (keep alphabetical order):
 ### 12. Test the installation
 
 ```bash
-brew uninstall <tool-name> 2>/dev/null || true
-brew install zdennis/bin/<tool-name>
+.claude/skills/homebrew-formula/brew-formula-helper install <tool-name>
 ```
 
 If installation fails due to sha256 mismatch or other errors, fix the formula and retry.
@@ -339,7 +353,7 @@ If installation fails due to sha256 mismatch or other errors, fix the formula an
 Run `brew test` to verify the formula's test block passes (this is what CI runs):
 
 ```bash
-brew test zdennis/bin/<tool-name>
+.claude/skills/homebrew-formula/brew-formula-helper test <tool-name>
 ```
 
 If the test fails, fix the `test do` block in the formula and retry. The test must pass for CI to succeed.
@@ -530,14 +544,13 @@ This ensures documentation always reflects the latest version.
 ### 9. Test the installation
 
 ```bash
-brew uninstall <tool-name> 2>/dev/null || true
-brew install zdennis/bin/<tool-name>
+.claude/skills/homebrew-formula/brew-formula-helper install <tool-name>
 ```
 
 ### 10. Run brew test to verify the test block
 
 ```bash
-brew test zdennis/bin/<tool-name>
+.claude/skills/homebrew-formula/brew-formula-helper test <tool-name>
 ```
 
 If the test fails, fix the `test do` block in the formula and retry.
@@ -859,11 +872,7 @@ Store the confirmed version as `<NEW_VERSION>`.
 ### 6. Commit, tag, and push in zdennis/bin
 
 ```bash
-cd ~/.bin-zdennis
-git add bin/zdennis-bin-all
-git commit -m "Update zdennis-bin-all script to v<NEW_VERSION>"
-git tag zdennis-bin-all-v<NEW_VERSION>
-git push && git push --tags
+.claude/skills/homebrew-formula/brew-formula-helper push-bin-all <NEW_VERSION>
 ```
 
 ### 7. Get the new SHA256

@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+# brew-formula-helper - Helper script for homebrew-formula skill operations
+#
+# Usage:
+#   brew-formula-helper install <tool-name>    Install/reinstall a formula from local source
+#   brew-formula-helper test <tool-name>       Run brew test on a formula
+#   brew-formula-helper push-bin-all <version> Commit, tag, and push zdennis-bin-all in zdennis/bin repo
+#
+set -euo pipefail
+
+HOMEBREW_BIN_DIR="/Users/zdennis/source/opensource_projects/homebrew-bin"
+TAP_DIR="$(brew --repo zdennis/bin 2>/dev/null || echo "/opt/homebrew/Library/Taps/zdennis/homebrew-bin")"
+BIN_REPO="$HOME/.bin-zdennis"
+
+command="${1:-}"
+shift || true
+
+case "$command" in
+  install)
+    tool="${1:?Usage: brew-formula-helper install <tool-name>}"
+    cp "$HOMEBREW_BIN_DIR/Formula/$tool.rb" "$TAP_DIR/Formula/$tool.rb"
+    brew uninstall "$tool" 2>/dev/null || true
+    HOMEBREW_NO_AUTO_UPDATE=1 brew install "zdennis/bin/$tool" 2>&1
+    ;;
+
+  test)
+    tool="${1:?Usage: brew-formula-helper test <tool-name>}"
+    HOMEBREW_NO_AUTO_UPDATE=1 brew test "zdennis/bin/$tool" 2>&1
+    ;;
+
+  push-bin-all)
+    version="${1:?Usage: brew-formula-helper push-bin-all <version>}"
+    cd "$BIN_REPO"
+    git add bin/zdennis-bin-all
+    git commit -m "Update zdennis-bin-all script to v$version"
+    git tag "zdennis-bin-all-v$version"
+    git push && git push --tags
+    ;;
+
+  *)
+    echo "Usage: brew-formula-helper <install|test|push-bin-all> <args...>"
+    echo ""
+    echo "Commands:"
+    echo "  install <tool-name>     Copy formula to tap, uninstall, and reinstall"
+    echo "  test <tool-name>        Run brew test on a formula"
+    echo "  push-bin-all <version>  Commit, tag, and push zdennis-bin-all script"
+    exit 1
+    ;;
+esac
