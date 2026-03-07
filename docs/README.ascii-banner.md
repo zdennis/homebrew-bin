@@ -42,6 +42,7 @@ By default, ascii-banner auto-scales to fit your terminal. You can override this
 
 | Option | Description |
 |--------|-------------|
+| `-s mc` or `-s micro` | Micro font (1 row, bold) |
 | `-s t` or `-s tiny` | Tiny font (3 rows) |
 | `-s s` or `-s small` | Small font (4 rows) |
 | `-s m` or `-s medium` | Medium font (6 rows) |
