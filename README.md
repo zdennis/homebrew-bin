@@ -38,3 +38,4 @@ zdennis/bin tools v1.1.1 (installed via 'brew install zdennis/bin/zdennis-bin-al
 | set-random-background-color | [README](docs/README.set-random-background-color.md) | `brew install zdennis/bin/set-random-background-color` | Set iTerm2 background to a random dark color. Useful for visually distinguishing terminal sessions. |
 | touchp | [README](docs/README.touchp.md) | `brew install zdennis/bin/touchp` | Touch a file and create parent directories in its path. A combination of `mkdir -p` and `touch` in one command. |
 | window-tool | [README](docs/README.window-tool.md) | `brew install zdennis/bin/window-tool` | Fast macOS CLI for listing, moving, and resizing application windows using the Accessibility API. |
+| workspace | [README](docs/README.workspace.md) | `brew install zdennis/bin/workspace` | Manage tmuxinator-based development workspaces in iTerm2. Launch, focus, kill, and relaunch projects with automatic window positioning. |

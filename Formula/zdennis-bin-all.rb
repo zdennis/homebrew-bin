@@ -1,8 +1,8 @@
 class ZdennisBinAll < Formula
   desc "Install all zdennis/bin tools"
   homepage "https://github.com/zdennis/bin"
-  url "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v1.6.0/bin/zdennis-bin-all"
-  sha256 "863747d0da18879157942da58ea8c0f7cdde633830bcc338ecb96bee6666f396"
+  url "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v1.7.0/bin/zdennis-bin-all"
+  sha256 "b9ebb1a08f8c60b2a2c4f46117b9ef715dc8b3a66cd61b8258f0695fb8f6b5fd"
   license "MIT"
 
   depends_on "zdennis/bin/alias-directory"
@@ -15,6 +15,7 @@ class ZdennisBinAll < Formula
   depends_on "zdennis/bin/set-random-background-color"
   depends_on "zdennis/bin/touchp"
   depends_on "zdennis/bin/window-tool"
+  depends_on "zdennis/bin/workspace"
 
   def install
     bin.install "zdennis-bin-all"
