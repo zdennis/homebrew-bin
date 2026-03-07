@@ -25,8 +25,8 @@ window-tool move 0 100 50 1200 900
 # Snap window to left half of screen
 window-tool snap 0 left
 
-# Target a different app
-window-tool --app com.apple.Safari list
+# Target a different app by name or bundle ID
+window-tool --app Safari list
 ```
 
 ## Commands
@@ -74,7 +74,7 @@ window-tool --app com.apple.Safari list
 
 | Option | Description |
 |--------|-------------|
-| `--app <bundle-id>` | Target application (default: `com.googlecode.iterm2`) |
+| `--app <name-or-id>` | Target application by name or bundle ID (default: `com.googlecode.iterm2`) |
 | `--json` | Output in JSON format |
 | `--version, -v` | Print version and exit |
 | `-h, --help` | Show help message |
@@ -101,8 +101,8 @@ window-tool snap 0 right
 window-tool save-layout ~/layout.json
 window-tool restore-layout ~/layout.json
 
-# Count Safari windows
-window-tool --app com.apple.Safari count
+# Count Safari windows (by name or bundle ID)
+window-tool --app Safari count
 
 # Arrange windows side-by-side in columns
 window-tool columnize 0 1 2 --gap 10
