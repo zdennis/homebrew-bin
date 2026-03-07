@@ -19,6 +19,9 @@ A helper script at `.claude/skills/homebrew-formula/brew-formula-helper` is avai
 
 # Commit, tag, and push zdennis-bin-all in the zdennis/bin repo
 .claude/skills/homebrew-formula/brew-formula-helper push-bin-all <version>
+
+# Download a URL and output its SHA256 checksum
+.claude/skills/homebrew-formula/brew-formula-helper sha256 <url>
 ```
 
 ## Usage
@@ -205,17 +208,15 @@ If user provides a different path, update `<TOOL_PATH>` and retry verification.
 
 ### 6. Get the SHA256 checksum
 
-Fetch the tool and compute checksum:
+Fetch the tool and compute checksum using the helper script:
 
-**For GitHub:**
 ```bash
-curl -sL "<RAW_URL_BASE>/<TAG>/<TOOL_PATH><tool-name>" | shasum -a 256
+.claude/skills/homebrew-formula/brew-formula-helper sha256 "<RAW_URL>"
 ```
 
-**For GitLab:**
-```bash
-curl -sL "https://gitlab.com/owner/repo/-/raw/<TAG>/<TOOL_PATH><tool-name>" | shasum -a 256
-```
+Where `<RAW_URL>` is the full URL to the raw file at the tag:
+- **GitHub:** `<RAW_URL_BASE>/<TAG>/<TOOL_PATH><tool-name>`
+- **GitLab:** `https://gitlab.com/owner/repo/-/raw/<TAG>/<TOOL_PATH><tool-name>`
 
 ### 7. Read the tool to extract description and usage
 
@@ -520,7 +521,7 @@ Use `AskUserQuestion` to ask the user:
 ### 6. Get the SHA256 checksum
 
 ```bash
-curl -sL "<RAW_URL_BASE>/<TAG>/<TOOL_PATH><tool-name>" | shasum -a 256
+.claude/skills/homebrew-formula/brew-formula-helper sha256 "<RAW_URL>"
 ```
 
 ### 7. Update the formula
@@ -878,7 +879,7 @@ Store the confirmed version as `<NEW_VERSION>`.
 ### 7. Get the new SHA256
 
 ```bash
-curl -sL "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v<NEW_VERSION>/bin/zdennis-bin-all" | shasum -a 256
+.claude/skills/homebrew-formula/brew-formula-helper sha256 "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v<NEW_VERSION>/bin/zdennis-bin-all"
 ```
 
 Store as `<NEW_SHA256>`.

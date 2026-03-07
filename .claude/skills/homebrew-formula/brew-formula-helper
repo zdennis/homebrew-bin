@@ -6,6 +6,7 @@
 #   brew-formula-helper install <tool-name>    Install/reinstall a formula from local source
 #   brew-formula-helper test <tool-name>       Run brew test on a formula
 #   brew-formula-helper push-bin-all <version> Commit, tag, and push zdennis-bin-all in zdennis/bin repo
+#   brew-formula-helper sha256 <url>           Download a URL and output its SHA256 checksum
 #
 set -euo pipefail
 
@@ -38,13 +39,19 @@ case "$command" in
     git push && git push --tags
     ;;
 
+  sha256)
+    url="${1:?Usage: brew-formula-helper sha256 <url>}"
+    curl -sL "$url" | shasum -a 256 | awk '{print $1}'
+    ;;
+
   *)
-    echo "Usage: brew-formula-helper <install|test|push-bin-all> <args...>"
+    echo "Usage: brew-formula-helper <install|test|push-bin-all|sha256> <args...>"
     echo ""
     echo "Commands:"
     echo "  install <tool-name>     Copy formula to tap, uninstall, and reinstall"
     echo "  test <tool-name>        Run brew test on a formula"
     echo "  push-bin-all <version>  Commit, tag, and push zdennis-bin-all script"
+    echo "  sha256 <url>            Download a URL and output its SHA256 checksum"
     exit 1
     ;;
 esac
