@@ -34,45 +34,63 @@ window-tool --app Safari list
 | Command | Description |
 |---------|-------------|
 | `active-screen` | Print active screen bounds (where mouse cursor is) |
-| `columnize <i> <i> [<i>...] [--gap N]` | Arrange windows side-by-side in columns |
+| `active-window [--id]` | Print info about the frontmost app's primary window |
+| `border <window> [--color C] [--width N]` | Add a persistent border that tracks a window |
+| `columnize <w> <w> [<w>...] [--gap N]` | Arrange windows side-by-side in columns |
 | `count` | Print number of windows |
-| `focus <window>` | Bring window to front by index |
-| `focus-by-title <pattern>` | Bring window to front by title match |
+| `dim <window> [--opacity N] [--duration N]` | Dim everything except a window |
+| `flash <window> [--color C] [--count N]` | Flash a colored overlay on a window |
+| `focus <window>` | Bring window to front |
 | `fullscreen <window>` | Enter macOS fullscreen mode |
-| `fullscreen-by-title <pattern>` | Enter fullscreen by title match |
+| `highlight <window> [--color C] [--duration S]` | Briefly highlight a window (auto-dismisses) |
 | `info <window>` | Show detailed info for a window |
-| `list` | List all windows with index, window ID, position, size, and title |
-| `list-open-windows` | List apps with open windows |
+| `list` | List windows (all apps, or one app with `--app`) |
 | `maximize <window>` | Maximize window to fill screen |
-| `maximize-by-title <pattern>` | Maximize windows matching title |
-| `minimize <window>` | Minimize a window by index |
-| `minimize-by-title <pattern>` | Minimize a window by title match |
-| `move <window> <x> <y> [<w> <h>]` | Move/resize window by index |
-| `move-by-title <pattern> <x> <y> [<w> <h>]` | Move/resize windows matching title substring |
+| `minimize <window>` | Minimize a window |
+| `move <window> <x> <y> [<w> <h>]` | Move/resize window |
 | `move-to-screen <window> <screen>` | Move window to a different display |
-| `move-to-screen-by-title <pattern> <screen>` | Move window to display by title |
-| `resize <window> <w> <h>` | Resize window by index |
-| `resize-by-title <pattern> <w> <h>` | Resize windows matching title |
+| `preview <window> [--output <path>]` | Capture a window screenshot as PNG |
+| `record <window> --output <path> [options]` | Record video of a window |
+| `resize <window> <width> <height>` | Resize window |
 | `restore` | Restore all minimized windows |
 | `restore-layout <file>` | Restore window layout from a JSON file |
 | `save-layout <file>` | Save window layout to a JSON file |
 | `screens` | List all displays with bounds |
-| `shake <window> [offset] [count] [delay]` | Shake a window by index |
-| `shake-by-title <pattern> [offset] [count] [delay]` | Shake a window by title match |
+| `shake <window> [offset] [count] [delay]` | Shake a window |
+| `shell-init <shell>` | Print shell integration snippet (zsh, bash, fish) |
 | `snap <window> <position>` | Snap window to screen region |
-| `snap-by-title <pattern> <position>` | Snap window to screen region by title |
 | `stack [offset]` | Cascade windows with offset (default: 30) |
+| `unborder [<window>]` | Remove borders for target app (or one window) |
+| `unborder-all` | Remove all active borders |
+| `undim` | Remove active dim overlay |
 | `unfullscreen <window>` | Exit macOS fullscreen mode |
-| `unfullscreen-by-title <pattern>` | Exit fullscreen by title match |
 | `watch [interval]` | Watch for window changes (default: 1.0s) |
 
 ### Window selectors
 
-`<window>` can be an index (`0`, `1`, `2`...) or `id=<window_id>` (e.g., `id=1341`). Use `list` to see available indices and window IDs.
+`<window>` can be:
+- An index: `0`, `1`, `2`...
+- A window ID: `id=<window_id>` (e.g., `id=1341`)
+- A title match: `title=<pattern>` (e.g., `title="my notes"`)
+
+Use `list` to see available indices and window IDs.
+
+### Record options
+
+| Option | Description |
+|--------|-------------|
+| `--fps N` | Frames per second (default: 30) |
+| `--duration N` | Recording duration in seconds |
+| `--no-countdown` | Skip countdown before recording |
+| `--no-border` | Don't show recording border |
 
 ### Snap positions
 
 `left`, `right`, `top`, `bottom`, `top-left`, `top-right`, `bottom-left`, `bottom-right`, `center`, `maximize`
+
+### Colors
+
+`red`, `green`, `blue`, `yellow`, `orange`, `purple`, `white`, `cyan`, `magenta`, `random`
 
 ## Options
 
@@ -83,6 +101,15 @@ window-tool --app Safari list
 | `--version, -v` | Print version and exit |
 | `-h, --help` | Show help message |
 
+## Command Chaining
+
+Use `+` to run multiple commands in sequence, sharing `--app` and `--json` flags:
+
+```bash
+window-tool --app Safari focus 0 + highlight 0 --color red
+window-tool --app iTerm info 0 + info 1
+```
+
 ## Examples
 
 ```bash
@@ -92,11 +119,8 @@ window-tool screens
 # Get active screen bounds for positioning
 window-tool active-screen
 
-# Find which apps have open windows
-window-tool list-open-windows
-
-# Move all windows matching a title pattern
-window-tool move-by-title "my-notes" 0 0 1400 1000
+# Move window by title
+window-tool move title="my-notes" 0 0 1400 1000
 
 # Snap window to right half of screen
 window-tool snap 0 right
@@ -111,12 +135,20 @@ window-tool --app Safari count
 # Arrange windows side-by-side in columns
 window-tool columnize 0 1 2 --gap 10
 
-# Maximize a window to fill the screen
-window-tool maximize 0
+# Highlight a window with a color flash
+window-tool highlight 0 --color green
 
-# Enter/exit macOS fullscreen
-window-tool fullscreen 0
-window-tool unfullscreen 0
+# Add a persistent border to track a window
+window-tool border 0 --color blue --width 3
+
+# Dim everything except a window
+window-tool dim 0 --opacity 0.5
+
+# Capture a window screenshot
+window-tool preview 0 --output ~/screenshot.png
+
+# Chain commands
+window-tool --app Safari focus 0 + highlight 0 --color red
 
 # Get window list as JSON
 window-tool --json list

@@ -155,7 +155,7 @@ Store as `<TOOL_PATH>` (ensure it ends with `/` if it's a directory, or use as-i
 **Search for matching tags:**
 
 ```bash
-git ls-remote --tags <REPO_URL> | grep "<tag-pattern>" | sort -V | tail -1
+git ls-remote --tags <REPO_URL> | grep "<tag-pattern>" | sort -t '/' -k 3 -V | tail -1
 ```
 
 **If multiple tags match a pattern**, list them and confirm with user using `AskUserQuestion`:
@@ -465,7 +465,7 @@ Store final values as `<REPO_URL>`, `<RAW_URL_BASE>`, `<HOMEPAGE>`, `<TOOL_PATH>
 **Search for matching tags:**
 
 ```bash
-git ls-remote --tags <REPO_URL> | grep "<tag-pattern>" | sort -V | tail -1
+git ls-remote --tags <REPO_URL> | grep "<tag-pattern>" | sort -t '/' -k 3 -V | tail -1
 ```
 
 **If multiple tags match**, list them and confirm with user using `AskUserQuestion`:
@@ -963,7 +963,7 @@ Store extracted version as `<CURRENT_VERSION>`.
 #### 2b. Query upstream for latest tag
 
 ```bash
-git ls-remote --tags <REPO_URL> | grep "<tag-pattern>" | sort -V | tail -1
+git ls-remote --tags <REPO_URL> | grep "<tag-pattern>" | sort -t '/' -k 3 -V | tail -1
 ```
 
 Extract the version from the latest tag.

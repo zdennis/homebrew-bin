@@ -1,8 +1,8 @@
 class WindowTool < Formula
   desc "Fast macOS CLI for listing, moving, and resizing application windows"
   homepage "https://github.com/zdennis/window-tool"
-  url "https://github.com/zdennis/window-tool/archive/refs/tags/v0.6.0.tar.gz"
-  sha256 "d11a2292987f1cfd9828163f240ff099e0692b7fcb6c43ec242e4baf10caa65e"
+  url "https://github.com/zdennis/window-tool/archive/refs/tags/v0.8.0.tar.gz"
+  sha256 "71ac16889c0dffdb63f07547ad732e65bb8a8ad99727d89483fa6dad5eeddc26"
   license "MIT"
 
   depends_on :macos
@@ -11,7 +11,9 @@ class WindowTool < Formula
     system "swiftc", "-O",
            "-o", "window-tool",
            "src/window-tool.swift",
-           "-framework", "Cocoa"
+           "-framework", "Cocoa",
+           "-framework", "AVFoundation",
+           "-framework", "ScreenCaptureKit"
     bin.install "window-tool"
   end
 
