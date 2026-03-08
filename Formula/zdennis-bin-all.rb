@@ -1,8 +1,8 @@
 class ZdennisBinAll < Formula
   desc "Install all zdennis/bin tools"
   homepage "https://github.com/zdennis/bin"
-  url "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v1.9.0/bin/zdennis-bin-all"
-  sha256 "3779d86767538c86d0a2b2d5f40f201fbb9fe6c0cb9601aa65cad3b5f868de21"
+  url "https://raw.githubusercontent.com/zdennis/bin/zdennis-bin-all-v1.10.0/bin/zdennis-bin-all"
+  sha256 "97779a330c7ddcaa222bbfd1f6d1602d3cf41f5b88642271aad52e3337e5b24e"
   license "MIT"
 
   depends_on "zdennis/bin/alias-directory"
