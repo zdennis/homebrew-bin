@@ -103,11 +103,12 @@ Use `list` to see available indices and window IDs.
 
 ## Command Chaining
 
-Use `+` to run multiple commands in sequence, sharing `--app` and `--json` flags:
+Use `+` to run multiple commands in sequence, sharing `--app` and `--json` flags. Subsequent commands inherit the window selector from the previous command:
 
 ```bash
-window-tool --app Safari focus 0 + highlight 0 --color red
+window-tool --app Safari snap 0 center + focus + highlight --color red
 window-tool --app iTerm info 0 + info 1
+window-tool focus id=2457 + highlight + dim id=2789
 ```
 
 ## Examples
