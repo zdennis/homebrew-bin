@@ -43,6 +43,7 @@ window-tool --app Safari list
 | `focus <window>` | Bring window to front |
 | `fullscreen <window>` | Enter macOS fullscreen mode |
 | `highlight <window> [--color C] [--duration S]` | Briefly highlight a window (auto-dismisses) |
+| `identify` | Show window IDs on all windows |
 | `info <window>` | Show detailed info for a window |
 | `list` | List windows (all apps, or one app with `--app`) |
 | `maximize <window>` | Maximize window to fill screen |
