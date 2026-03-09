@@ -43,7 +43,7 @@ workspace kill
 | `doctor` | Check that all required dependencies are installed |
 | `focus <project>` | Bring a project's window to the front and shake it |
 | `init` | Install tmuxinator templates and create config directory |
-| `kill [projects...]` | Kill workspace projects and their tmux sessions |
+| `kill <key/url/branch>` | Kill a worktree project and remove its worktree |
 | `launch <projects...>` | Launch tmuxinator projects in iTerm windows |
 | `layout` | Save/restore tmux pane layouts (auto-saved before resize) |
 | `list` | List currently active (launched) projects (`--all` for all available) |
@@ -51,7 +51,8 @@ workspace kill
 | `resize` | Resize tmux panes for a running project |
 | `start <key/url/branch>` | Create a git worktree and launch it as a workspace project |
 | `status` | Show detailed state of tracked launcher sessions |
-| `stop` | Kill a worktree project and remove its worktree (auto-detects from cwd) |
+| `stop` | Stop active workspace projects and their tmux sessions |
+| `version` | Print the workspace version |
 | `tile` | Tile all windows for a project across the screen |
 | `whereis` | Print the workspace installation directory |
 
