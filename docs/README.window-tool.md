@@ -36,6 +36,7 @@ window-tool --app Safari list
 | `active-screen` | Print active screen bounds (where mouse cursor is) |
 | `active-window [--id]` | Print info about the frontmost app's primary window |
 | `border <window> [--color C] [--width N]` | Add a persistent border that tracks a window |
+| `center <window> [<w> <h>]` | Center a window on screen, optionally resizing |
 | `columnize <w> <w> [<w>...] [--gap N]` | Arrange windows side-by-side in columns |
 | `count` | Print number of windows |
 | `dim <window> [--opacity N] [--duration N]` | Dim everything except a window |
@@ -59,6 +60,7 @@ window-tool --app Safari list
 | `screens` | List all displays with bounds |
 | `shake <window> [offset] [count] [delay]` | Shake a window |
 | `shell-init <shell>` | Print shell integration snippet (zsh, bash, fish) |
+| `sidebar <window> <side> [<width>]` | Pin a window to screen edge as a sidebar |
 | `snap <window> <position>` | Snap window to screen region |
 | `stack [offset]` | Cascade windows with offset (default: 30) |
 | `unborder [<window>]` | Remove borders for target app (or one window) |

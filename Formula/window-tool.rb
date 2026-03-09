@@ -1,8 +1,8 @@
 class WindowTool < Formula
   desc "Fast macOS CLI for listing, moving, and resizing application windows"
   homepage "https://github.com/zdennis/window-tool"
-  url "https://github.com/zdennis/window-tool/archive/refs/tags/v0.10.0.tar.gz"
-  sha256 "a5c6e91f57b4a6d9dd595ea4888cb0212d1015d44ba199a0b5f98883f80d53fb"
+  url "https://github.com/zdennis/window-tool/archive/refs/tags/v0.14.1.tar.gz"
+  sha256 "a1b4fd330e092f929c8a49c1f2e35f054f2d53714eafe35c6c542db924da61f0"
   license "MIT"
 
   depends_on :macos
