@@ -53,7 +53,7 @@ workspace kill
 | `status` | Show detailed state of tracked launcher sessions |
 | `stop` | Stop active workspace projects and their tmux sessions |
 | `version` | Print the workspace version |
-| `tile` | Tile all windows for a project across the screen |
+| `tile` | Tile windows across the screen (`--all` for all projects) |
 | `whereis` | Print the workspace installation directory |
 
 ## Options
