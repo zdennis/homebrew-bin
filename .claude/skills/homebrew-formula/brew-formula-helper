@@ -10,7 +10,7 @@
 #
 set -euo pipefail
 
-HOMEBREW_BIN_DIR="/Users/zdennis/source/opensource_projects/homebrew-bin"
+HOMEBREW_BIN_DIR="/Users/zdennis/source/opensource/homebrew-bin"
 TAP_DIR="$(brew --repo zdennis/bin 2>/dev/null || echo "/opt/homebrew/Library/Taps/zdennis/homebrew-bin")"
 BIN_REPO="$HOME/.bin-zdennis"
 
