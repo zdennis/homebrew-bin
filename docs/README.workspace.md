@@ -38,22 +38,27 @@ workspace kill
 |---------|-------------|
 | `add <path>` | Add a tmuxinator config for a project directory |
 | `alfred` | Manage the Alfred workflow for workspace focus |
+| `cleanup` | Detect and remove zombie sessions from state |
 | `config` | Show project or global configuration |
 | `current` | Print the workspace project name for the current directory |
+| `deactivate` | Deactivate Claude in a project's tmux pane (sends Ctrl-C) |
 | `doctor` | Check that all required dependencies are installed |
+| `event-log` | Manage the append-only event log (compact) |
 | `focus <project>` | Bring a project's window to the front and shake it |
 | `init` | Install tmuxinator templates and create config directory |
 | `kill <key/url/branch>` | Kill a worktree project and remove its worktree |
 | `launch <projects...>` | Launch tmuxinator projects in iTerm windows |
 | `layout` | Save/restore tmux pane layouts (auto-saved before resize) |
 | `list` | List currently active (launched) projects (`--all` for all available) |
+| `reactivate` | Reactivate Claude in a project's tmux pane |
 | `relaunch` | Kill and relaunch all active workspace projects |
+| `repair` | Rebuild state from live iTerm windows |
 | `resize` | Resize tmux panes for a running project |
 | `start <key/url/branch>` | Create a git worktree and launch it as a workspace project |
 | `status` | Show detailed state of tracked launcher sessions |
 | `stop` | Stop active workspace projects and their tmux sessions |
-| `version` | Print the workspace version |
 | `tile` | Tile windows across the screen (`--all` for all projects) |
+| `version` | Print the workspace version |
 | `whereis` | Print the workspace installation directory |
 
 ## Options
