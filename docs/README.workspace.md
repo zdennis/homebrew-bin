@@ -55,6 +55,7 @@ workspace kill
 | `reactivate` | Reactivate Claude in a project's tmux pane |
 | `relaunch` | Kill and relaunch all active workspace projects |
 | `repair` | Rebuild state from live iTerm windows |
+| `set-command <project> <cmd> --pane N` | Set the shell command for a pane in a project's tmuxinator config |
 | `resize` | Resize tmux panes for a running project |
 | `start <key/url/branch>` | Create a git worktree and launch it as a workspace project |
 | `status` | Show detailed state of tracked launcher sessions |
