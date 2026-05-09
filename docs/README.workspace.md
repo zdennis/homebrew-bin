@@ -42,6 +42,7 @@ workspace kill
 | `config` | Show project or global configuration |
 | `current` | Print the workspace project name for the current directory |
 | `deactivate` | Deactivate Claude in a project's tmux pane (sends Ctrl-C) |
+| `dir <project>` | Print the root directory of a workspace project |
 | `doctor` | Check that all required dependencies are installed |
 | `event-log` | Manage the append-only event log (compact) |
 | `focus <project>` | Bring a project's window to the front and shake it |
@@ -50,6 +51,7 @@ workspace kill
 | `launch <projects...>` | Launch tmuxinator projects in iTerm windows |
 | `layout` | Save/restore tmux pane layouts (auto-saved before resize) |
 | `list` | List currently active (launched) projects (`--all` for all available) |
+| `lookup <query>` | Find a workspace project by worktree path, branch, or project name |
 | `reactivate` | Reactivate Claude in a project's tmux pane |
 | `relaunch` | Kill and relaunch all active workspace projects |
 | `repair` | Rebuild state from live iTerm windows |
