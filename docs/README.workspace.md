@@ -54,6 +54,7 @@ workspace kill
 | `lookup <query>` | Find a workspace project by worktree path, branch, or project name |
 | `reactivate` | Reactivate Claude in a project's tmux pane |
 | `relaunch` | Kill and relaunch all active workspace projects |
+| `prune` | Remove worktree projects whose PR is closed or merged |
 | `repair` | Rebuild state from live iTerm windows |
 | `set-command <project> <cmd> --pane N` | Set the shell command for a pane in a project's tmuxinator config |
 | `resize` | Resize tmux panes for a running project |
