@@ -9,7 +9,7 @@ class HtmlViewer < Formula
   depends_on "node"
 
   def install
-    system "npm", "install", "--production", "--ignore-scripts"
+    system "npm", "install"
     libexec.install Dir["*"]
 
     (bin/"html-viewer").write <<~BASH
