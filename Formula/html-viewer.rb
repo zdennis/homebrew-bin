@@ -31,6 +31,8 @@ class HtmlViewer < Formula
     electron_dist = buildpath/"node_modules/electron/dist"
     electron_dist.mkpath
     resource("electron").stage { electron_dist.install Dir["*"] }
+    # Write the path.txt file that electron/index.js requires to locate the binary
+    (buildpath/"node_modules/electron/path.txt").write "Electron.app/Contents/MacOS/Electron"
 
     libexec.install Dir["*"]
 
