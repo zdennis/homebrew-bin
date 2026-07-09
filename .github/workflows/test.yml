@@ -31,6 +31,9 @@ jobs:
       - name: Tap this repository
         run: brew tap zdennis/bin .
 
+      - name: Trust this tap
+        run: brew trust zdennis/bin
+
       - name: List available formulas
         run: |
           echo "Available formulas:"
