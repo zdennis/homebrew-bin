@@ -1,8 +1,8 @@
 class HtmlViewer < Formula
   desc "Always-on-top macOS window for viewing HTML files and URLs from the CLI"
   homepage "https://github.com/zdennis/html-viewer"
-  url "https://github.com/zdennis/html-viewer/archive/refs/tags/v0.8.0.tar.gz"
-  sha256 "cb5b79b39564f8213dd61413161fa2cdc7e61bbc2ec6744b47693c96e8af5b3f"
+  url "https://github.com/zdennis/html-viewer/archive/refs/tags/v0.9.0.tar.gz"
+  sha256 "4936a5824a24b9bc99a7a29e32c95960ee098813d86a9dc62f3c6dd58801df3e"
   license "MIT"
 
   depends_on :macos
