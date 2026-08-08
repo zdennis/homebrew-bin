@@ -41,12 +41,25 @@ jobs:
 
       - name: Install all formulas
         run: |
-          # Install zdennis-bin-all which depends on all other tools except work-coordinator
-          # (private repo, not accessible in public CI).
-          # html-viewer bundles pre-built Electron binaries whose Mach-O headers lack
-          # space for Homebrew's dylib relinking; the keg installs correctly but brew
-          # exits 1 due to the cosmetic linkage warning. Ensure it is present after.
-          brew install zdennis/bin/zdennis-bin-all || brew install zdennis/bin/html-viewer
+          # Install each formula individually so we can skip or tolerate known issues:
+          # - work-coordinator: private GitHub repo, not accessible in public CI
+          # - html-viewer: Electron dylib relinking fails cosmetically (exit 1) but
+          #   the keg installs correctly; treat non-zero exit as acceptable.
+          # - zdennis-bin-all: depends on work-coordinator, so install it last after
+          #   skipping that dep; it will fail if work-coordinator isn't present, so skip it too.
+          for formula in Formula/*.rb; do
+            name=$(basename "$formula" .rb)
+            if [[ "$name" == "work-coordinator" || "$name" == "zdennis-bin-all" ]]; then
+              echo "Skipping $name install (private dep or meta-formula)"
+              continue
+            fi
+            echo "Installing $name..."
+            if [[ "$name" == "html-viewer" ]]; then
+              brew install "zdennis/bin/$name" || true
+            else
+              brew install "zdennis/bin/$name"
+            fi
+          done
 
       - name: Test all formulas
         run: |
@@ -54,9 +67,10 @@ jobs:
           failed=0
           for formula in Formula/*.rb; do
             name=$(basename "$formula" .rb)
-            # work-coordinator sources from a private GitHub repo — skip in public CI
-            if [[ "$name" == "work-coordinator" ]]; then
-              echo "Skipping $name (private repo, not accessible in public CI)"
+            # work-coordinator: private GitHub repo, not accessible in public CI
+            # zdennis-bin-all: meta-formula that depends on work-coordinator, can't install
+            if [[ "$name" == "work-coordinator" || "$name" == "zdennis-bin-all" ]]; then
+              echo "Skipping $name (private dep or requires work-coordinator)"
               continue
             fi
             echo ""
@@ -71,4 +85,4 @@ jobs:
           exit $failed
 
       - name: Show installed tools summary
-        run: zdennis-bin-all
+        run: brew list --formula | grep -E '^(alias-directory|ascii-banner|code\+x|codep|expand-keyword|html-viewer|queue-commands|retry-command|run-through|set-random-background-color|touchp|window-tool|workspace)' || true
