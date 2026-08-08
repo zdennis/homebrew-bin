@@ -32,6 +32,7 @@ zdennis/bin tools v1.1.1 (installed via 'brew install zdennis/bin/zdennis-bin-al
 | ascii-banner | [README](docs/README.ascii-banner.md) | `brew install zdennis/bin/ascii-banner` | Create ASCII art banners from text with color, sizing, and alignment options. Supports multiple font sizes (tiny to extra-large), rainbow effects, auto-scaling to terminal size, margins, and interactive watch/rotate modes. |
 | code+x | [README](docs/README.code+x.md) | `brew install zdennis/bin/code+x` | Create executable files and open them in VS Code. Combines `touchp`, `chmod +x`, and `code` in one command. |
 | codep | [README](docs/README.codep.md) | `brew install zdennis/bin/codep` | Run commands in parallel with formatted output. |
+| expand-keyword | [README](docs/README.expand-keyword.md) | `brew install zdennis/bin/expand-keyword` | Manage $KEYWORD text expansions for Claude Code hook integration. Define shorthand aliases that auto-inject full context into prompts. |
 | html-viewer | [README](docs/README.html-viewer.md) | `brew install zdennis/bin/html-viewer` | Always-on-top macOS window for viewing HTML, Markdown files and URLs from the command line. |
 | queue-commands | [README](docs/README.queue-commands.md) | `brew install zdennis/bin/queue-commands` | Run commands from a file sequentially, pausing on errors for manual intervention. |
 | retry-command | [README](docs/README.retry-command.md) | `brew install zdennis/bin/retry-command` | Retry commands with configurable delay, limits, and supervisor mode. |
