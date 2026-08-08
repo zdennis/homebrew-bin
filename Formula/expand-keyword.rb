@@ -1,10 +1,9 @@
 class ExpandKeyword < Formula
   desc "Manage $KEYWORD text expansions for Claude Code hook integration"
   homepage "https://github.com/zdennis/expand-keywords"
-  url "https://github.com/zdennis/expand-keywords/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "7ebd5dfdd7520c3f898146ce0e3599f03149214ac5b9c26fa4b61d22caa3841d"
+  url "https://github.com/zdennis/expand-keywords/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "a0a018f0c72ab4d278b10ef757129166d09cbb9e5ea0bdde1a5450a4c048682f"
   license "MIT"
-  version "0.1.0"
 
   depends_on "ruby"
 
@@ -21,6 +20,6 @@ class ExpandKeyword < Formula
   end
 
   test do
-    assert_match "0.1.0", shell_output("#{bin}/expand-keyword --version")
+    assert_match version.to_s, shell_output("#{bin}/expand-keyword --version")
   end
 end
