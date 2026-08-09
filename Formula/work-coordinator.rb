@@ -2,8 +2,8 @@ class WorkCoordinator < Formula
   desc "Route messages to AI agents running in tmux panes"
   homepage "https://github.com/zdennis/work-coordinator"
   url "https://github.com/zdennis/work-coordinator.git",
-      tag:      "v0.7.0",
-      revision: "72c39b002f2dbd382f4a7ea4c1ab6f9e1fe9121b"
+      tag:      "v0.7.1",
+      revision: "1c4ad35e0a9a3802f326383e204f8d5ccd957f89"
   license "MIT"
 
   depends_on :macos
