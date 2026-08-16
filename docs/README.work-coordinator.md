@@ -44,12 +44,17 @@ work-coordinator status
 
 | Command | Description |
 |---------|-------------|
+| `init` | Create the default config file (`~/.config/work-coordinator/config.yml`) |
+| `alias` | List, add, or remove workspace project aliases |
+| `config` | Read or write a configuration property |
+| `project` | Manage projects (add, list, set-default) |
 | `register` | Register a new work item |
 | `start <uuid>` | Transition a work item to active state |
 | `status` | List all work items with their current state and phase |
+| `send "REF body"` | Send a message to the running coordinator via socket |
 | `run` | Start the coordinator daemon (local socket or Messages mode) |
-| `send "REF body"` | Send a message to the running daemon over its socket |
 | `notify <uuid> "body"` | Send a human notification for a work item |
+| `report` | Send a status report to the running coordinator's status socket |
 
 ## Options
 
