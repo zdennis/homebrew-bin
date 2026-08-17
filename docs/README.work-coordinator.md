@@ -51,7 +51,9 @@ work-coordinator status
 | `register` | Register a new work item |
 | `start <uuid>` | Transition a work item to active state |
 | `status` | List all work items with their current state and phase |
+| `work-items` | Manage and inspect work items (subcommands: status) |
 | `send "REF body"` | Send a message to the running coordinator via socket |
+| `workspace` | Dispatch a command to a named registered workspace agent |
 | `run` | Start the coordinator daemon (local socket or Messages mode) |
 | `notify <uuid> "body"` | Send a human notification for a work item |
 | `report` | Send a status report to the running coordinator's status socket |
