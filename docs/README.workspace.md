@@ -37,31 +37,45 @@ workspace kill
 | Command | Description |
 |---------|-------------|
 | `add <path>` | Add a tmuxinator config for a project directory |
+| `advance` | Advance a pipeline to the next stage |
+| `agent` | Manage workspace agents |
+| `agent-run` | Run an agent command in a workspace pane |
 | `alfred` | Manage the Alfred workflow for workspace focus |
+| `capture` | Capture output from a workspace pane |
 | `cleanup` | Detect and remove zombie sessions from state |
+| `compact` | Compact the event log |
 | `config` | Show project or global configuration |
 | `current` | Print the workspace project name for the current directory |
 | `deactivate` | Deactivate Claude in a project's tmux pane (sends Ctrl-C) |
 | `dir <project>` | Print the root directory of a workspace project |
 | `doctor` | Check that all required dependencies are installed |
-| `event-log` | Manage the append-only event log (compact) |
+| `event-log` | Manage the append-only event log |
 | `focus <project>` | Bring a project's window to the front and shake it |
+| `info` | Show info about a workspace project |
 | `init` | Install tmuxinator templates and create config directory |
+| `install` | Install workspace hooks or integrations |
 | `kill <key/url/branch>` | Kill a worktree project and remove its worktree |
 | `launch <projects...>` | Launch tmuxinator projects in iTerm windows |
 | `layout` | Save/restore tmux pane layouts (auto-saved before resize) |
 | `list` | List currently active (launched) projects (`--all` for all available) |
 | `lookup <query>` | Find a workspace project by worktree path, branch, or project name |
+| `pipeline` | Manage workspace pipelines |
 | `reactivate` | Reactivate Claude in a project's tmux pane |
 | `relaunch` | Kill and relaunch all active workspace projects |
 | `prune` | Remove worktree projects whose PR is closed or merged |
 | `repair` | Rebuild state from live iTerm windows |
+| `report-run-status` | Report the status of a run to the workspace |
+| `restore` | Restore a saved layout |
+| `run` | Run a command in a workspace pane |
+| `run-and-report` | Run a command and report its result to the workspace |
+| `save` | Save the current layout |
 | `set-command <project> <cmd> --pane N` | Set the shell command for a pane in a project's tmuxinator config |
 | `resize` | Resize tmux panes for a running project |
 | `start <key/url/branch>` | Create a git worktree and launch it as a workspace project |
 | `status` | Show detailed state of tracked launcher sessions |
 | `stop` | Stop active workspace projects and their tmux sessions |
 | `tile` | Tile windows across the screen (`--all` for all projects) |
+| `uninstall` | Uninstall workspace hooks or integrations |
 | `version` | Print the workspace version |
 | `whereis` | Print the workspace installation directory |
 
