@@ -1,8 +1,8 @@
 class ExpandKeyword < Formula
   desc "Manage $KEYWORD text expansions for Claude Code hook integration"
   homepage "https://github.com/zdennis/expand-keywords"
-  url "https://github.com/zdennis/expand-keywords/archive/refs/tags/v0.1.1.tar.gz"
-  sha256 "a0a018f0c72ab4d278b10ef757129166d09cbb9e5ea0bdde1a5450a4c048682f"
+  url "https://github.com/zdennis/expand-keywords/archive/refs/tags/v0.1.2.tar.gz"
+  sha256 "ad0cce3cdcb87a4537014c459d672d07c290cefa323bb9e960f9a2214ff286b5"
   license "MIT"
 
   depends_on "ruby"
