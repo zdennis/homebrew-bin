@@ -50,7 +50,7 @@ expand-keyword expand 'Please review $ctx'
 # Add a keyword with a description
 expand-keyword add --description 'Project context' '$proj' 'This is a Ruby on Rails app using Solid Queue...'
 
-# Expand inline text
+# Expand inline text (also records usage stats: useCount/lastUsed)
 expand-keyword expand 'Help me with $proj'
 
 # Remove a keyword
@@ -84,6 +84,10 @@ Add to `~/.claude/settings.json` to enable automatic keyword expansion in all Cl
   }
 }
 ```
+
+## Usage Stats
+
+When a token resolves, `expand` records usage stats in the keywords file: it increments the entry's `useCount` and stamps `lastUsed` (ISO 8601 UTC). This means the hook writes to the keywords file — not just reads it — so a file under version control will show diffs as tokens are used. Recording is best-effort: if the file isn't writable, expansion still succeeds and a warning goes to stderr.
 
 ## Environment Variables
 
