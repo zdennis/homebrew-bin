@@ -31,7 +31,9 @@ html-viewer ~/Desktop/page.html --exit-after-delay 10
 | Option | Description |
 |--------|-------------|
 | `<file-or-url>` | Path to a local HTML/Markdown file or an http/https URL |
+| `-s, --session <name>` | Name this viewer session (default: `default`) |
 | `--exit-after-delay <secs>` | Automatically quit after N seconds |
+| `-v, --version` | Print version and exit |
 | `-h, --help` | Show help message |
 
 ## Features
