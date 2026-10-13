@@ -48,7 +48,7 @@ workspace kill
 | `cleanup` | Detect and remove zombie sessions from state |
 | `config` | Show, validate, set, get, or unset project or global configuration |
 | `current` | Print the workspace project name for the current directory |
-| `daemon` | Show, restart or read the log of a workspace's agent daemon |
+| `daemon` | List, show, restart (one or all) or read the log of agent daemons |
 | `dev` | Start, stop, or inspect the repo's single dev environment (`devenv` lock) |
 | `deactivate` | Deactivate Claude in a project's tmux pane (sends Ctrl-C) |
 | `dir <project>` | Print the root directory of a workspace project |
