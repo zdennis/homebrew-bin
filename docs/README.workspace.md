@@ -70,6 +70,7 @@ workspace kill
 | `parent` | Print the parent workspace of the current (or given) workspace |
 | `pipeline` | Deprecated (use `workflow`): inspect and drive a project's agent pipeline |
 | `projects` | Group workspaces by repository: main checkout plus worktrees (`list`, `list --git`, `show`, `members`, `stop`, `kill`) |
+| `promote [branch]` | Move a main checkout's uncommitted changes and branch commits into a new worktree workspace, leaving the main checkout clean |
 | `prune` | Remove worktree projects whose PR is closed or merged |
 | `reactivate` | Reactivate Claude in a project's tmux pane |
 | `relaunch` | Stop and relaunch all active workspace projects |
