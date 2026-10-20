@@ -39,7 +39,7 @@ workspace kill
 | `add <path>` | Add a tmuxinator config for a project directory |
 | `agent` | Umbrella for driving a workspace agent: `agent run "prompt"` |
 | `agentd` | Run the long-lived workspace agent daemon for a project, or replace it (`agentd restart`) |
-| `agent-run` | Send a message to a running agent, or type into a pane (command, inject, restart, send) |
+| `agent-run` | Send a message to a running agent, or type into a pane (command, inject, restart, send); `send --when-idle` queues it until the agent's turn ends, `--clear-first` clears the conversation before typing, and `queue list`/`queue cancel` manage queued prompts |
 | `alfred` | Manage the Alfred workflow for workspace focus |
 | `ask` | Record a question an unattended agent hit, with its default; list/answer them |
 | `binding` | Bind a pane to a workflow run, PR review or play, so it survives `/clear` and compaction |
