@@ -46,7 +46,7 @@ workspace stop --all
 | `capabilities` | Print what this CLI supports, as feature revisions (for scripts and the UI) |
 | `capture` | Print a tmux pane's scrollback buffer to stdout |
 | `cleanup` | Detect and remove zombie sessions from state (`--dry-run` reports only) |
-| `config` | Show, validate, set, get, unset, edit or describe project or global configuration |
+| `config` | Show, validate, set, get, unset, edit or describe project or global configuration; `get` notes when another config layer holds the value |
 | `current` | Print the workspace project name for the current directory |
 | `daemon` | List, show, restart (one or all) or read the log of agent daemons |
 | `deactivate` | Deactivate Claude in a project's tmux pane (sends Ctrl-C) |
@@ -56,7 +56,7 @@ workspace stop --all
 | `event-log` | Show or compact the append-only event log of state changes and agent activity |
 | `events` | Read or follow the event log and every agent's hook events as one stream |
 | `finish` | Verify a worktree is clean and pushed, then remove it (default: the current one; optionally opens a PR); reports pushed unless the branch is on the default branch |
-| `focus <project>` | Bring a project's iTerm window to the front |
+| `focus <project>` | Bring a project's iTerm window to the front (`--center` centers it on its screen, `--cycle` steps through windows) |
 | `goal` | Say where a workspace's goal is (stage, workflow step, agent turn, tool call) and what it waits for (`show`), or one line per goal (`list`) |
 | `handoff` | Check context usage and hand off to a fresh conversation |
 | `hooks` | Remove workspace's hooks from a coding agent's settings (`hooks uninstall`) |
