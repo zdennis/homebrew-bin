@@ -52,7 +52,7 @@ workspace stop --all
 | `deactivate` | Deactivate Claude in a project's tmux pane (sends Ctrl-C) |
 | `dev` | Start, stop, or inspect the repo's single dev environment (`devenv` lock) |
 | `dir [project]` | Print the root directory of a workspace project (default: the current one) |
-| `doctor` | Check that all required dependencies are installed |
+| `doctor` | Check that all required dependencies are installed and the skill links are sound (`--fix` repairs them) |
 | `event-log` | Show or compact the append-only event log of state changes and agent activity |
 | `events` | Read or follow the event log and every agent's hook events as one stream |
 | `finish` | Verify a worktree is clean and pushed, then remove it (default: the current one; optionally opens a PR); reports pushed unless the branch is on the default branch |
@@ -96,6 +96,7 @@ workspace stop --all
 | `sessions` | Show coding-agent sessions and sub-agents running in a project's panes |
 | `set-command <project> <cmd> --pane N` | Set the shell command for a pane in a project config |
 | `snapshot` | Print everything a UI polls (projects, panes, git, questions, locks, dev) as one JSON document |
+| `skills` | Link the workspace skills into your coding agents (`install`, `--install-all`), or remove the links (`uninstall`) |
 | `spine` | Read and set a workspace's stages (stage files in its notes directory): show, init, set status, tick a checklist, record a check verdict, start an agent on a stage |
 | `start <key/url/branch>` | Create a git worktree and launch it (from JIRA key, PR/issue URL or `#n`, or branch) |
 | `status` | Show detailed state of tracked launcher sessions |
