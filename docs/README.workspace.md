@@ -62,7 +62,7 @@ workspace stop --all
 | `hooks` | Remove workspace's hooks from a coding agent's settings (`hooks uninstall`) |
 | `inbox` | Keep a durable list of things that need a person: `add` (`--note REL` points an item at a note workspace-ui can open), `list`, `show`, `edit`, `done`, `dismiss`, `reopen` |
 | `init` | Install tmuxinator templates and create workspace config directory |
-| `instructions` | Print the instructions built from library packs (`binding`, `orchestrator`, `commits`, `review`, `notes`, `handoff`, `dev`, `implementation-plan`, `research`, `spine`, `promote`, `report`) |
+| `instructions` | Print the instructions built from library packs (`binding`, `orchestrator`, `commits`, `review`, `notes`, `handoff`, `dev`, `implementation-plan`, `research`, `spine`, `promote`, `report`, `plan-review`) |
 | `journey` | Another name for `spine` |
 | `kill [key/url/branch]` | Kill a worktree project, remove its worktree and the branch `start` made (default: the current one; `--delete-remote` also deletes the merged remote branch) |
 | `launch <projects...>` | Launch tmuxinator projects in iTerm2 windows, or headless in plain tmux; updates a stopped workspace's agent pane to the configured command first (with a backup) |
