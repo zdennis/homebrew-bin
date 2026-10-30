@@ -62,7 +62,7 @@ workspace stop --all
 | `hooks` | Remove workspace's hooks from a coding agent's settings (`hooks uninstall`) |
 | `inbox` | Keep a durable list of things that need a person: `add` (`--note REL` points an item at a note workspace-ui can open), `list`, `show`, `edit`, `done`, `dismiss`, `reopen` |
 | `init` | Install tmuxinator templates and create workspace config directory |
-| `instructions` | Print the instructions built from library packs (`binding`, `orchestrator`, `commits`, `review`, `notes`, `handoff`, `dev`, `implementation-plan`, `research`, `spine`, `promote`) |
+| `instructions` | Print the instructions built from library packs (`binding`, `orchestrator`, `commits`, `review`, `notes`, `handoff`, `dev`, `implementation-plan`, `research`, `spine`, `promote`, `report`) |
 | `journey` | Another name for `spine` |
 | `kill [key/url/branch]` | Kill a worktree project, remove its worktree and the branch `start` made (default: the current one; `--delete-remote` also deletes the merged remote branch) |
 | `launch <projects...>` | Launch tmuxinator projects in iTerm2 windows, or headless in plain tmux; updates a stopped workspace's agent pane to the configured command first (with a backup) |
@@ -76,11 +76,11 @@ workspace stop --all
 | `parent` | Print the parent workspace of the current (or given) workspace |
 | `pipeline` | Deprecated (use `workflow`): inspect and drive a project's agent pipeline |
 | `plan` | Show and run a workspace's plan (`IMPLEMENTATION_PLAN.md`): `status`, `path`, `show`, `init`, `start`, `pause`, `delete` |
-| `pr` | Open a pull request for a workspace's branch without finishing it (`pr create`) |
+| `pr` | Open a pull request for a workspace's branch without finishing it (`pr create`), or list its review threads, reviews and failing checks (`pr feedback`) |
 | `projects` | Group workspaces by repository: main checkout plus worktrees (`list`, `list --git`, `show`, `members`, `stop`, `kill`) |
 | `promote [branch]` | Move a main checkout's uncommitted changes and branch commits into a new worktree workspace, leaving the main checkout clean |
 | `prune` | Remove worktree projects whose PR is closed or merged |
-| `push` | Push a workspace's branch to origin, forcing with a lease only after a rebase; errors say whether a retry can help |
+| `push` | Push a workspace's branch to origin (a `pr-N` checkout to its pull request's head, after checking it with gh), forcing with a lease only after a rebase; errors say whether a retry can help |
 | `reactivate` | Reactivate Claude in a project's tmux pane |
 | `rebase` | Rebase a workspace's branch onto the default branch (`--onto local\|update\|remote\|upstream`) |
 | `relaunch` | Stop and relaunch all active workspace projects |
@@ -109,7 +109,7 @@ workspace stop --all
 | `version` | Print the workspace version |
 | `wait-until-content` | Block until a pane shows content, then exec a command |
 | `whereis` | Print the workspace installation directory |
-| `workflow` | Run a workflow (ordered steps, e.g. `rpiv`) in a workspace's agent pane: `show`, `run`, `start` (make a workspace from a ticket or a prompt and run in it), `status`, `resume`, `cancel`, `approve`, `reject`; manage your own definitions (`validate`, `add`, `update`, `remove`); read a run's history (`events`, `files`) |
+| `workflow` | Run a workflow (ordered steps, e.g. `rpiv`, or `pr-feedback` to triage and fix a pull request's review feedback) in a workspace's agent pane: `show`, `run`, `start` (make a workspace from a ticket or a prompt and run in it), `status`, `resume`, `cancel`, `approve`, `reject`; manage your own definitions (`validate`, `add`, `update`, `remove`); read a run's history (`events`, `files`) |
 
 ## Options
 
