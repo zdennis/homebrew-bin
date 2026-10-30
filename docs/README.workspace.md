@@ -110,7 +110,7 @@ workspace stop --all
 | `version` | Print the workspace version |
 | `wait-until-content` | Block until a pane shows content, then exec a command |
 | `whereis` | Print the workspace installation directory |
-| `workflow` | Run a workflow (ordered steps, e.g. `rpiv`, `pr-feedback` to triage and fix a pull request's review feedback, or `investigate` to reproduce, diagnose and fix a failure) in a workspace's agent pane: `show`, `run`, `start` (make a workspace from a ticket or a prompt and run in it), `status`, `resume`, `cancel`, `approve`, `reject`; manage your own definitions (`validate`, `add`, `update`, `remove`); read a run's history (`events`, `files`) |
+| `workflow` | Run a workflow (ordered steps, e.g. `rpiv`, `rpiv-auto-approve` where two reviewer agents approve the plan, `pr-feedback` to triage and fix a pull request's review feedback, or `investigate` to reproduce, diagnose and fix a failure) in a workspace's agent pane: `show`, `run`, `start` (make a workspace from a ticket or a prompt and run in it), `status`, `resume`, `cancel`, `approve`, `reject`; manage your own definitions (`validate`, `add`, `update`, `remove`); read a run's history (`events`, `files`) |
 
 ## Options
 
