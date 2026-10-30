@@ -60,7 +60,7 @@ workspace stop --all
 | `goal` | Say where a workspace's goal is (stage, workflow step, agent turn, tool call) and what it waits for (`show`), or one line per goal (`list`) |
 | `handoff` | Check context usage and hand off to a fresh conversation |
 | `hooks` | Remove workspace's hooks from a coding agent's settings (`hooks uninstall`) |
-| `inbox` | Keep a durable list of things that need a person: `add`, `list`, `show`, `edit`, `done`, `dismiss`, `reopen` |
+| `inbox` | Keep a durable list of things that need a person: `add` (`--note REL` points an item at a note workspace-ui can open), `list`, `show`, `edit`, `done`, `dismiss`, `reopen` |
 | `init` | Install tmuxinator templates and create workspace config directory |
 | `instructions` | Print the instructions built from library packs (`binding`, `orchestrator`, `commits`, `review`, `notes`, `handoff`, `dev`, `implementation-plan`, `research`, `spine`, `promote`) |
 | `journey` | Another name for `spine` |
@@ -105,7 +105,7 @@ workspace stop --all
 | `ticket` | Look up a ticket the way `start` reads it (`show`), or list yours (`list`) |
 | `tile` | Tile windows across the screen (`--all` for all projects) |
 | `tmux` | Show a workspace's tmuxinator file as windows and panes |
-| `ui` | Open a `workspace-ui://` link: a task, a review, notes or the inbox |
+| `ui` | Open a `workspace-ui://` link: a task, a review, notes (or one note with `--path`) or the inbox |
 | `version` | Print the workspace version |
 | `wait-until-content` | Block until a pane shows content, then exec a command |
 | `whereis` | Print the workspace installation directory |
