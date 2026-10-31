@@ -22,6 +22,9 @@ A helper script at `.claude/skills/homebrew-formula/brew-formula-helper` is avai
 
 # Download a URL and output its SHA256 checksum
 .claude/skills/homebrew-formula/brew-formula-helper sha256 <url>
+
+# Post a note to the homebrew-bin workspace inbox (body on stdin)
+.claude/skills/homebrew-formula/brew-formula-helper notify <title>
 ```
 
 ## Usage
@@ -415,6 +418,10 @@ git push
 
 Report completion with the commit hash and (if pushed) confirm it's been released.
 
+### 17. Notify the homebrew-bin workspace
+
+Follow the [Notify Instructions](#notify-instructions).
+
 ---
 
 ## Update Instructions
@@ -628,6 +635,10 @@ git push
 ```
 
 Report completion with the commit hash and (if pushed) confirm it's been released.
+
+### 14. Notify the homebrew-bin workspace
+
+Follow the [Notify Instructions](#notify-instructions).
 
 ---
 
@@ -929,6 +940,38 @@ If running as part of `create` or `update`:
 If running standalone:
 - The changes are ready to be committed in homebrew-bin
 - Remind user to commit `Formula/zdennis-bin-all.rb` if not already done
+- Follow the [Notify Instructions](#notify-instructions). As part of `create` or `update`, the parent's notify step covers zdennis-bin-all; don't post a second note
+
+---
+
+## Notify Instructions
+
+The last step of `create`, `update` and a standalone `update_all_formula`: tell the `homebrew-bin` workspace which formulas changed and to which version, so the person sees it in the workspace inbox (Workspace UI).
+
+**Skip it** when no formula changed (already on the latest version and no force update, or the command was cancelled).
+
+### 1. Post the note
+
+Build the title from every formula whose version changed, `<formula> <new_version>` joined by `, `, and pipe the body to the helper:
+
+```bash
+.claude/skills/homebrew-formula/brew-formula-helper notify "Homebrew formulas updated: <formula> <new_version>, zdennis-bin-all <new_version>" <<'EOF'
+- <formula>: <old_version> → <new_version> (new formula: "added at <new_version>")
+- zdennis-bin-all: <old_version> → <new_version> (<patch|minor|...> bump: <one-line reason>)
+
+<homebrew-bin commit hash> <pushed | committed, not pushed | not committed>
+zdennis/bin tag: zdennis-bin-all-v<new_version> (pushed)
+Source: <HOMEPAGE>
+EOF
+```
+
+- List each changed formula on its own line, zdennis-bin-all last.
+- Say plainly whether the homebrew-bin change was pushed, only committed, or left uncommitted.
+- For a force update with the same version, say "refreshed at <version>" instead of an arrow.
+
+### 2. Report the result
+
+The helper prints the inbox item id (`Added inbox item <id> ...`). Include the id in the final summary. If the post fails (for example, `workspace` is not installed or there is no `homebrew-bin` workspace), report the error and continue: the formula release itself already succeeded, so never undo or retry it because of a failed note.
 
 ---
 
