@@ -39,7 +39,7 @@ workspace stop --all
 | `add <path>` | Add a tmuxinator config for a project directory |
 | `agent` | Drive a workspace agent: `agent run "prompt"`, `agent status request\|post` |
 | `agent-run` | Send a message to a running agent, or type into a pane (command, inject, restart, send); `send --when-idle` queues it until the agent's turn ends, `--clear-first` clears the conversation before typing, and `queue list`/`queue cancel` manage queued prompts |
-| `agentd` | Run the long-lived workspace agent daemon for a project, or replace it (`agentd restart`) |
+| `agentd` | Run the long-lived workspace agent daemon for a project, or replace it (`agentd restart`); it recovers a Claude Code agent whose turn ended on an API error (`agent.recovery.enabled`, on by default) |
 | `alfred` | Manage the Alfred workflow for workspace focus |
 | `ask` | Record a question an unattended agent hit, with its default; list/answer them (this workspace's, or `ask [WS]`) |
 | `binding` | Bind a pane to a workflow run, PR review or play, so it survives `/clear` and compaction |
