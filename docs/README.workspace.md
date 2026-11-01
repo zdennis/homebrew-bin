@@ -95,6 +95,7 @@ workspace stop --all
 | `session-event` | Forward one coding-agent hook event to a workspace's agent daemon |
 | `sessions` | Show coding-agent sessions and sub-agents running in a project's panes |
 | `set-command <project> <cmd> --pane N` | Set the shell command for a pane in a project config |
+| `shell-init` | Print shell functions to load from your rc file: `wf` and `wfp` start a workflow in one command, plus tab completion for zsh and bash |
 | `snapshot` | Print everything a UI polls (projects, panes, git, questions, locks, dev) as one JSON document |
 | `skills` | Link the workspace skills into your coding agents (`install`, `--install-all`), or remove the links (`uninstall`) |
 | `spine` | Read and set a workspace's stages (stage files in its notes directory): show, init, set status, tick a checklist, record a check verdict, start an agent on a stage |
