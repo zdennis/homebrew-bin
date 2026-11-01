@@ -106,7 +106,7 @@ workspace stop --all
 | `ticket` | Look up a ticket the way `start` reads it (`show`), or list yours (`list`) |
 | `tile` | Tile windows across the screen (`--all` for all projects) |
 | `tmux` | Show a workspace's tmuxinator file as windows and panes |
-| `ui` | Open a `workspace-ui://` link: a task, a review, notes (or one note with `--path`) or the inbox |
+| `ui` | Open a `workspace-ui://` link: the workspace view (`task`, also `plan`), a review, notes (or one note with `--path`) or the inbox; `ui status` shows which app would take one |
 | `version` | Print the workspace version |
 | `wait-until-content` | Block until a pane shows content, then exec a command |
 | `whereis` | Print the workspace installation directory |
