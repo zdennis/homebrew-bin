@@ -56,7 +56,7 @@ workspace stop --all
 | `event-log` | Show or compact the append-only event log of state changes and agent activity |
 | `events` | Read or follow the event log and every agent's hook events as one stream |
 | `finish` | Verify a worktree is clean and pushed, then remove it (default: the current one; optionally opens a PR); reports pushed unless the branch is on the default branch |
-| `focus <project>` | Bring a project's iTerm window to the front (`--center` centers it on its screen, `--cycle` steps through windows) |
+| `focus <project>` | Bring a project's iTerm window to the front, centered and dimmed by `focus.chain` (`--center` also centers, `--cycle` steps through windows) |
 | `goal` | Say where a workspace's goal is (stage, workflow step, agent turn, tool call) and what it waits for (`show`), or one line per goal (`list`) |
 | `handoff` | Check context usage and hand off to a fresh conversation |
 | `hooks` | Remove workspace's hooks from a coding agent's settings (`hooks uninstall`) |
