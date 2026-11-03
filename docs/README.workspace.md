@@ -86,6 +86,7 @@ workspace stop --all
 | `rebase` | Rebase a workspace's branch onto the default branch (`--onto local\|update\|remote\|upstream`) |
 | `relaunch` | Stop and relaunch all active workspace projects |
 | `remove` | Forget a stopped project: delete its generated config and state (default: the current one; your files stay) |
+| `rename` | Give a stopped worktree workspace a new branch, directory, name and session (`--dry-run` previews); a rename that stopped part way is finished by running it again |
 | `repair` | Rebuild state from live iTerm windows |
 | `report-run-status` | Internal: write run result for `--wait` (called by shell wrapper) |
 | `resize` | Resize tmux panes for a running project |
