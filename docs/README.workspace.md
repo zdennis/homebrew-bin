@@ -62,7 +62,7 @@ workspace stop --all
 | `handoff` | Check context usage and hand off to a fresh conversation |
 | `hooks` | Remove workspace's hooks from a coding agent's settings (`hooks uninstall`) |
 | `inbox` | Keep a durable list of things that need a person: `add` (`--note REL` points an item at a note workspace-ui can open), `list`, `show`, `edit`, `done`, `dismiss`, `reopen` |
-| `init` | Install tmuxinator templates and create workspace config directory |
+| `init` | Install tmuxinator templates and create workspace config directory (`--workflow-sources` lists workflow sources in the global config) |
 | `instructions` | Print the instructions built from library packs (`binding`, `orchestrator`, `commits`, `review`, `notes`, `handoff`, `dev`, `implementation-plan`, `research`, `spine`, `promote`, `report`, `plan-review`) |
 | `journey` | Another name for `spine` |
 | `kill [key/url/branch]` | Kill a worktree project, remove its worktree and the branch `start` made (default: the current one; `--delete-remote` also deletes the merged remote branch) |
@@ -113,7 +113,7 @@ workspace stop --all
 | `version` | Print the workspace version |
 | `wait-until-content` | Block until a pane shows content, then exec a command |
 | `whereis` | Print the workspace installation directory |
-| `workflow` | Run a workflow (ordered steps, e.g. `rpiv`, `rpiv-auto-approve` where reviewer agents approve the plan, `pr-feedback` to triage and fix a pull request's review feedback, `investigate` to reproduce, diagnose and fix a failure, or `explore` for read-only research that ends in a report note) in a workspace's agent pane: `show`, `run` (a `task` or `pr` left out is filled from the branch's pull request or name), `start` (make a workspace from a ticket, a ref or a prompt and run in it; the ID may come from `workflows.default`), `status`, `sweep`, `resume`, `cancel`, `approve`, `reject`; manage your own definitions (`validate`, `add`, `update`, `remove`) and try them out (`render`, `check`, `simulate`); read a run's history (`events`, `files`, `attempts`, `audit`) and compare runs (`stats`, `compare`) |
+| `workflow` | Run a workflow (ordered steps, e.g. `rpiv`, `rpiv-auto-approve` where reviewer agents approve the plan, `pr-feedback` to triage and fix a pull request's review feedback, `investigate` to reproduce, diagnose and fix a failure, or `explore` for read-only research that ends in a report note) in a workspace's agent pane: `show`, `run` (a `task` or `pr` left out is filled from the branch's pull request or name), `start` (make a workspace from a ticket, a ref or a prompt and run in it; the ID may come from `workflows.default`), `status`, `sweep`, `resume`, `cancel`, `approve`, `reject`; manage your own definitions (`validate`, `add`, `update`, `remove`) and workflow sources (`install` fetches the `workflows.sources` definitions, `list` tables id, source and description, `uninstall` drops every source-installed one) and try them out (`render`, `check`, `simulate`); read a run's history (`events`, `files`, `attempts`, `audit`) and compare runs (`stats`, `compare`) |
 
 ## Options
 
@@ -137,6 +137,8 @@ workspace stop --all
 |--------|-------------|
 | `--dry-run` | Show what would be done without making changes |
 | `-f, --force` | Overwrite existing templates even if they differ |
+| `--install-hooks` / `--no-install-hooks` | Install agent session hooks without asking / skip that step |
+| `--workflow-sources VALUE` | Add `workflows.sources` entries to the global config (repeatable) |
 
 ## Examples
 
