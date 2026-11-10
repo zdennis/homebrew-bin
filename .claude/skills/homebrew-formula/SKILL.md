@@ -53,6 +53,24 @@ A helper script at `.claude/skills/homebrew-formula/brew-formula-helper` is avai
 
 Both commands automatically detect the latest version by finding the newest matching tag in the repository.
 
+## Version Selection Policy
+
+Pick release versions automatically from what the incoming changes show. **By default, do not ask** — only use `AskUserQuestion` for genuine blockers (no matching tags, tool missing at the tag, ambiguous repo/path).
+
+**Attempt to follow semver.** When a newer tag than the current version exists, glean the release type from the changes between the current tag and the newest tag:
+
+- List the commits (GitHub compare API `https://api.github.com/repos/<owner>/<repo>/compare/<old-tag>...<new-tag>`, or `git log <old>..<new>` when a clone is at hand).
+- Classify the bump:
+  - Breaking changes (conventional `BREAKING CHANGE` footers, `!`-suffixed types, or removed/renamed user-facing behavior) → **major**
+  - New features (conventional `feat:`, or clearly new commands/options) → **minor**
+  - Fixes and chores only (conventional `fix:`, `chore:`, docs, tests) → **patch**
+- Report the classified bump (e.g., "minor: workflow sources feature") in the summary and use it as the reason line in the commit message and the zdennis-bin-all note.
+
+Use the newest matching tag, provided its semver bump is consistent with the changes you classified. If the tag's bump level disagrees with what the changes suggest (e.g., a patch tag containing `feat:` commits), still take the newest tag — the upstream tag is the release of record — and note the disagreement in the report instead of asking.
+
+When several newer tags exist, skip to the newest; there is no need to update stepwise through intermediate tags.
+
+
 ## Commands
 
 ### create
@@ -161,9 +179,7 @@ Store as `<TOOL_PATH>` (ensure it ends with `/` if it's a directory, or use as-i
 git ls-remote --tags <REPO_URL> | grep "<tag-pattern>" | sort -t '/' -k 3 -V | tail -1
 ```
 
-**If multiple tags match a pattern**, list them and confirm with user using `AskUserQuestion`:
-- Question: "Multiple tags found. Which version should be used?"
-- Options: List up to 4 most recent matching tags
+**Take the newest matching tag automatically** — do not ask which version to use (see [Version Selection Policy](#version-selection-policy)).
 
 **If no tags match:**
 Use `AskUserQuestion` to ask the user:
@@ -174,12 +190,6 @@ Use `AskUserQuestion` to ask the user:
   - "Cancel - I'll create a tag first"
 
 If user provides a different pattern, retry the search. If user wants to use a commit/branch, ask for the ref name.
-
-**Confirm tag with user** using `AskUserQuestion`:
-- Question: "Found tag '<tag>'. Use this version?"
-- Options:
-  - "Yes, use <tag>"
-  - "No, use a different version"
 
 Extract the version number from the tag (e.g., `ascii-banner-v1.2.0` → `1.2.0`, `v1.2.0` → `1.2.0`).
 
@@ -475,9 +485,7 @@ Store final values as `<REPO_URL>`, `<RAW_URL_BASE>`, `<HOMEPAGE>`, `<TOOL_PATH>
 git ls-remote --tags <REPO_URL> | grep "<tag-pattern>" | sort -t '/' -k 3 -V | tail -1
 ```
 
-**If multiple tags match**, list them and confirm with user using `AskUserQuestion`:
-- Question: "Multiple tags found. Which version should be used?"
-- Options: List up to 4 most recent matching tags
+**Take the newest matching tag automatically** — do not ask which version to use (see [Version Selection Policy](#version-selection-policy)).
 
 **If no tags match:**
 Use `AskUserQuestion` to ask the user:
@@ -493,20 +501,9 @@ Extract the version number from the tag.
 
 Compare the latest tag version with the current formula version.
 
-**If versions match:** Inform the user they're already on the latest version. Ask if they want to force update anyway (useful if the tag was re-pushed with changes). Use the AskUserQuestion tool:
+**If versions match:** Inform the user they're already on the latest version and stop. To refresh the SHA256 and docs at the same version (after a re-pushed tag), the user can ask for a force update explicitly — do not prompt for it by default.
 
-- "Already on latest version (v<VERSION>). Force update?"
-- Options: "Yes, force update" / "No, skip"
-
-If user chooses not to force update, stop here and report that no changes were made.
-
-**Confirm tag with user** using `AskUserQuestion`:
-- Question: "Update to tag '<tag>'?"
-- Options:
-  - "Yes, update to <tag>"
-  - "No, use a different version"
-
-If user chooses to force update, or if versions differ and user confirms, continue to the next step.
+**If a newer version exists:** Proceed without asking. Per the [Version Selection Policy](#version-selection-policy), list the commits between the current tag and the newest tag, classify the semver bump (major/minor/patch), and carry that classification into the summary, the commit message, and the zdennis-bin-all note.
 
 ### 5. Verify the tool exists at the tag
 
@@ -872,14 +869,13 @@ For each tool, extract:
 
 Parse the current version from the script's `VERSION="..."` line (e.g., `1.1.0`).
 
-Use `AskUserQuestion` to confirm the new version:
-- Question: "Tools changed. Current version is <CURRENT_VERSION>. What should the new version be?"
-- Options:
-  - "Patch (<CURRENT_MAJOR>.<CURRENT_MINOR>.<CURRENT_PATCH + 1>)" - e.g., `1.0.1`
-  - "Minor (<CURRENT_MAJOR>.<CURRENT_MINOR + 1>.0)" - e.g., `1.1.0`
-  - "Enter custom version"
+Derive the new version automatically from the incoming changes — do not ask (see [Version Selection Policy](#version-selection-policy)):
 
-Store the confirmed version as `<NEW_VERSION>`.
+- **Tool list changed** (formulas added or removed) → **minor** bump: `<major>.<minor + 1>.0`
+- **Tool versions changed only** (dependency-only refresh) → **patch** bump: `<major>.<minor>.<patch + 1>`
+- If any underlying tool's own update was a semver **major** bump (breaking changes) → **minor** bump of the meta-package, so the change is visible
+
+Store the derived version as `<NEW_VERSION>` and state the reason in one line (e.g., "patch bump: workspace 0.115.0 → 0.117.0").
 
 ### 6. Commit, tag, and push in zdennis/bin
 

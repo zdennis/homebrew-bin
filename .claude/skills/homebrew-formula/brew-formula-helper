@@ -21,7 +21,11 @@ shift || true
 case "$command" in
   install)
     tool="${1:?Usage: brew-formula-helper install <tool-name>}"
-    cp "$HOMEBREW_BIN_DIR/Formula/$tool.rb" "$TAP_DIR/Formula/$tool.rb"
+    # Skip the copy when the tap already has identical content (e.g. the tap
+    # is a symlink to this repo) - cp exits non-zero for identical files.
+    if ! cmp -s "$HOMEBREW_BIN_DIR/Formula/$tool.rb" "$TAP_DIR/Formula/$tool.rb" 2>/dev/null; then
+      cp "$HOMEBREW_BIN_DIR/Formula/$tool.rb" "$TAP_DIR/Formula/$tool.rb"
+    fi
     brew uninstall "$tool" 2>/dev/null || true
     HOMEBREW_NO_AUTO_UPDATE=1 brew install "zdennis/bin/$tool" 2>&1
     ;;
