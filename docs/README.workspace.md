@@ -52,7 +52,7 @@ workspace stop --all
 | `deactivate` | Deactivate Claude in a project's tmux pane (sends Ctrl-C) |
 | `dev` | Start, stop, or inspect the repo's single dev environment (`devenv` lock) |
 | `dir [project]` | Print the root directory of a workspace project (default: the current one) |
-| `doctor` | Check that all required dependencies are installed and the skill links are sound (`--fix` repairs them) |
+| `doctor` | Check that all required dependencies are installed and the skill links are sound (`--fix` repairs them); also warns when the scheduled `workflow sweep` is not installed, its last pass is stale, or its plist is out of date |
 | `event-log` | Show or compact the append-only event log of state changes and agent activity |
 | `events` | Read or follow the event log and every agent's hook events as one stream |
 | `finish` | Verify a worktree is clean and pushed, then remove it (default: the current one; optionally opens a PR); reports pushed unless the branch is on the default branch |
