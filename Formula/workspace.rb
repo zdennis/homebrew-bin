@@ -1,8 +1,8 @@
 class Workspace < Formula
   desc "Manage tmuxinator-based development workspaces in iTerm2"
   homepage "https://github.com/zdennis/workspace"
-  url "https://github.com/zdennis/workspace/archive/refs/tags/v0.143.0.tar.gz"
-  sha256 "5e1ac17a218bc2cedbd91f76529a9cd00a7c49f63b5ab34f444fd9d52500d6a3"
+  url "https://github.com/zdennis/workspace/archive/refs/tags/v0.144.0.tar.gz"
+  sha256 "3fb46fb920d8dd380ea6c52b7e53e3c10872552baeb8a7d28ab859544ce38e8d"
   license "MIT"
 
   depends_on :macos
