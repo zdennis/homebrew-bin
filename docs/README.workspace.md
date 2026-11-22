@@ -105,7 +105,7 @@ workspace stop --all
 | `status` | Show detailed state of tracked launcher sessions |
 | `statusline` | Render Claude Code's status line (install as its statusLine command) |
 | `step` | For the agent on a workflow step: report on it (`done`) see what it is (`status`), or prove a test fails before the fix (`expect-fail`) |
-| `stop` | Stop a workspace and its tmux session (default: the current one; `--all` for every active one) |
+| `stop` | Stop a workspace and its tmux session (default: the current one; `--all` for every active one), then close its iTerm window |
 | `ticket` | Look up a ticket the way `start` reads it (`show`), or list yours (`list`) |
 | `tile` | Tile windows across the screen (`--all` for all projects) |
 | `tmux` | Show a workspace's tmuxinator file as windows and panes |
