@@ -104,7 +104,7 @@ workspace stop --all
 | `start <key/url/branch>` | Create a git worktree and launch it (from JIRA key, PR/issue URL or `#n`, or branch) |
 | `status` | Show detailed state of tracked launcher sessions |
 | `statusline` | Render Claude Code's status line (install as its statusLine command) |
-| `step` | For the agent on a workflow step: report on it (`done`) see what it is (`status`), or prove a test fails before the fix (`expect-fail`) |
+| `step` | For the agent on a workflow step: report on it (`done`), see what it is (`status`), prove a test fails before the fix (`expect-fail`), or check that every requirement ID is covered (`check-ids`) |
 | `stop` | Stop a workspace and its tmux session (default: the current one; `--all` for every active one), then close its iTerm window |
 | `ticket` | Look up a ticket the way `start` reads it (`show`), or list yours (`list`) |
 | `tile` | Tile windows across the screen (`--all` for all projects) |
