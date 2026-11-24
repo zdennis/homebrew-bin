@@ -36,7 +36,7 @@ workspace stop --all
 
 | Command | Description |
 |---------|-------------|
-| `add <path>` | Add a tmuxinator config for a project directory |
+| `add <path>` | Add a tmuxinator config for a project directory and install the agent's session hooks in it |
 | `agent` | Drive a workspace agent: `agent run "prompt"`, `agent status request\|post` |
 | `agent-run` | Send a message to a running agent, or type into a pane (command, inject, restart, send); `send --when-idle` queues it until the agent's turn ends, `--clear-first` clears the conversation before typing, and `queue list`/`queue cancel` manage queued prompts |
 | `agentd` | Run the long-lived workspace agent daemon for a project, or replace it (`agentd restart`); it recovers a Claude Code agent whose turn ended on an API error (`agent.recovery.enabled`, on by default) |
@@ -66,7 +66,7 @@ workspace stop --all
 | `instructions` | Print the instructions built from library packs (`binding`, `orchestrator`, `commits`, `review`, `notes`, `handoff`, `dev`, `implementation-plan`, `research`, `spine`, `promote`, `report`, `plan-review`) |
 | `journey` | Another name for `spine` |
 | `kill [key/url/branch]` | Kill a worktree project, remove its worktree and the branch `start` made (default: the current one; `--delete-remote` also deletes the merged remote branch) |
-| `launch <projects...>` | Launch tmuxinator projects in iTerm2 windows, or headless in plain tmux; updates a stopped workspace's agent pane to the configured command first (with a backup) |
+| `launch <projects...>` | Launch tmuxinator projects in iTerm2 windows, or headless in plain tmux; updates a stopped workspace's agent pane to the configured command first (with a backup) and installs the agent's session hooks before the agent pane starts |
 | `layout` | Save/restore tmux pane layouts (auto-saved before resize) |
 | `library` (`lib`) | Store named plays, prompts, recipes, agents and skills, globally or per project, beside the built-in packs |
 | `list` | List active projects (`--all` for all available) |
